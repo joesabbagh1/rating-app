@@ -1,14 +1,7 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-
-import { trpc } from "../utils/trpc";
+import { type NextPage } from 'next'
+import Head from 'next/head'
 
 const Index: NextPage = () => {
-  const res = trpc.users.getById.useQuery("clc571q8d0000mz43xif2lbsn");
-  console.log();
-  const i = trpc.users.getAll.useQuery();
-  console.log(i);
-
   return (
     <>
       <Head>
@@ -17,10 +10,10 @@ const Index: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </>
-  );
-};
+  )
+}
 
-export default Index;
+export default Index
 
 // const AuthShowcase: React.FC = () => {
 //   const { data: sessionData } = useSession();

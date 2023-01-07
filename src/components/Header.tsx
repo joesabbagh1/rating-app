@@ -1,18 +1,19 @@
-import type { FC } from "react";
+import { signIn, signOut, useSession } from 'next-auth/react'
 
-type Header = {
-  name: string;
-};
+const Header = () => {
+  const { data: session } = useSession()
 
-const Header: FC<Header> = ({ name }) => {
   return (
-    <div className="flex justify-between">
-      <h1 className="text-3xl font-bold capitalize">{name}</h1>
-      <div className="flex items-center">
-        <h1 className="text-xl">Log Out</h1>
-      </div>
+    <div className="al flex items-center justify-between">
+      <h1 className="text-3xl font-bold capitalize">{session?.user?.name}</h1>
+      <button
+        className="rounded-full px-10 py-3 font-semibold no-underline transition"
+        onClick={session ? () => signOut() : () => signIn()}
+      >
+        {session ? 'Sign out' : 'Sign in'}
+      </button>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image"
 
-export type CoffeeShop = {
-  image: StaticImageData
+export type Shop = {
+  image?: StaticImageData
   title: string
   priceTag: string[]
   rating: number[]
