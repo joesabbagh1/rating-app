@@ -1,35 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faStarHalf, IconLookup, IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons'
 import React, { useMemo, FC } from 'react'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import Image, { StaticImageData } from 'next/image'
-import { CoffeeShop } from '../types/coffee-shop'
+import { Shop } from '@prisma/client'
 
 type getIcon = (idx: number) => any
 
-const CoffeeShop: FC<CoffeeShop> = ({ image, title, priceTag, rating }) => {
-  const avgRating = useMemo(() => {
-    const total = rating.reduce((acc, curr) => acc + curr, 0)
-    return total / rating.length
-  }, [rating])
-
-  const avgPrice: number = useMemo(() => {
-    const total: string = priceTag.reduce((acc: string, curr: string) => acc + curr, '')
-    return total.length / priceTag.length
-  }, [priceTag])
-
+type coffeeShop = {
+  coffeeShop: Shop
+}
+const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   const getIcon: getIcon = (idx) => {
-    if (idx <= avgRating) {
+    if (idx <= coffeeShop.rating) {
       return faStar
     }
-    if (idx > avgRating && idx === Math.ceil(avgRating)) {
+    if (idx > coffeeShop.rating && idx === Math.ceil(coffeeShop.rating)) {
       return faStarHalf
     }
   }
 
   const getPrice = () => {
     let price = ''
-    for (let i = 0; i < avgPrice; i++) {
+    for (let i = 0; i < coffeeShop.priceTag.length; i++) {
       price += '$'
     }
     return price
@@ -40,7 +31,7 @@ const CoffeeShop: FC<CoffeeShop> = ({ image, title, priceTag, rating }) => {
       .fill(0)
       .map((_, i) => i + 1)
       .map((idx) => <FontAwesomeIcon key={idx} icon={getIcon(idx)} style={{ color: '#f5eb3b' }} />)
-  }, [rating, getIcon])
+  }, [coffeeShop.rating, getIcon])
 
   return (
     <div
@@ -54,13 +45,12 @@ const CoffeeShop: FC<CoffeeShop> = ({ image, title, priceTag, rating }) => {
 				shadow-lg
 			"
     >
-      <Image src={image} alt="" />
       <div className="flex-col gap-3 p-5">
-        <h2 className="text-2xl font-bold">{title}</h2>
+        <h2 className="text-2xl font-bold">{coffeeShop.title}</h2>
         <span className="text-lg font-semibold">Price: {getPrice()}</span>
         <div>
           {starRating}
-          <span className="text-sm font-semibold">~{avgRating}</span>
+          <span className="text-sm font-semibold">~{coffeeShop.rating}</span>
         </div>
       </div>
     </div>

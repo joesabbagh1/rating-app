@@ -15,6 +15,8 @@ export const shopRouter = router({
   }),
   createShop: publicProcedure.input(z.any()).mutation(async ({ctx, input})=>{
     const id = Date.now().toString(36)
+    console.log(input);
+    
     let shop = {id: id, ...input}
     let shopb = await ctx.prisma.shop.create({
       data: shop
