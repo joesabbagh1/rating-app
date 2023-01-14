@@ -34,24 +34,34 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   }, [coffeeShop.rating, getIcon])
 
   return (
-    <div
-      className="
-				bg-white-100
-				text-grey-700
-				min-h-[18rem]
-				max-w-[20rem]
-				cursor-pointer
-        overflow-hidden
-        rounded-2xl bg-white shadow-xl
-        shadow-slate-900/10 transition duration-300 ease-in-out hover:scale-105
-			"
-    >
+    // <div
+    //   className="
+    // 		bg-white-100
+    // 		text-grey-700
+    // 		min-h-[18rem]
+    // 		max-w-[20rem]
+    // 		cursor-pointer
+    //     overflow-hidden
+    //     rounded-2xl bg-white shadow-xl
+    //     shadow-slate-900/10 transition duration-300 ease-in-out hover:scale-105
+    // 	"
+    // >
+    //   <Image src={younes} alt="" />
+    //   <div className="flex-col gap-3 p-8">
+    //     <h2 className="text-2xl font-bold">{coffeeShop.title}</h2>
+    //     <span className="text-lg font-semibold">Price: {getPrice()}</span>
+    //     <div>{starRating}</div>
+    //     <div className="text-right text-lg font-light italic">By {coffeeShop.userName}</div>
+    //   </div>
+    // </div>
+    <div className="">
       <Image src={younes} alt="" />
-      <div className="flex-col gap-3 p-8">
-        <h2 className="text-2xl font-bold">{coffeeShop.title}</h2>
-        <span className="text-lg font-semibold">Price: {getPrice()}</span>
-        <div>{starRating}</div>
-        <div className="text-right text-lg font-light italic">By {coffeeShop.userName}</div>
+      <div className="flex-col gap-3">
+        <div className="mt-3 text-2xl font-extralight">{coffeeShop.title}</div>
+        <span className="text-lg font-light">Price: {getPrice()}</span>
+        <div>
+          {starRating} <span className="text-sm font-light">1 review</span>
+        </div>
       </div>
     </div>
   )

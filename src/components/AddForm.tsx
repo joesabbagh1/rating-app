@@ -34,9 +34,7 @@ const AddForm = () => {
   useEffect(() => {
     setValue('priceTag', '$'.repeat(selectedPrice))
     setValue('rating', rating)
-    setValue('userId', session?.data?.user?.id ?? '')
-    setValue('userName', session?.data?.user?.name ?? '')
-  }, [selectedPrice, rating, session.data?.user?.id, session?.data?.user?.name])
+  }, [selectedPrice, rating])
 
   const mutation = trpc.shops.createShop.useMutation()
 

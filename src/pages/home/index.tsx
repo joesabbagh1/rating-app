@@ -20,28 +20,53 @@ const Home: NextPage = () => {
   }, [initialShops])
 
   return (
-    <div className="p-6">
-      <Header />
-      <h1 className="pt-16 pb-8 text-3xl">Coffee Shops:</h1>
-      <div className="grid grid-cols-2 gap-12 sm:grid-cols-2 lg:grid-cols-4">
-        {shops?.map((coffeeShop, idx) => (
-          <CoffeeShop key={idx} coffeeShop={coffeeShop} />
-        ))}
-        <div
-          className="
+    <div className="p-6 px-12">
+      <div>
+        <h1 className="py-8 text-3xl">Shops</h1>
+        <div className="grid grid-cols-2 gap-5 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+          {shops?.map((coffeeShop, idx) => (
+            <CoffeeShop key={idx} coffeeShop={coffeeShop} />
+          ))}
+          <div
+            className="
             flex
             min-h-[18rem]
             flex-col
             place-content-center
             items-center
           "
-        >
-          <Link href="/shop/add">
-            <FontAwesomeIcon
-              icon={faCirclePlus}
-              className="h-10 cursor-pointer hover:text-teal-700"
-            />
-          </Link>
+          >
+            <Link href="/shop/add">
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                className="h-10 cursor-pointer hover:text-teal-700"
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="mt-28">
+        <h1 className="py-8 text-3xl">Recent Reviews</h1>
+        <div className="grid grid-cols-2 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+          {shops?.map((coffeeShop, idx) => (
+            <CoffeeShop key={idx} coffeeShop={coffeeShop} />
+          ))}
+          <div
+            className="
+            flex
+            min-h-[18rem]
+            flex-col
+            place-content-center
+            items-center
+          "
+          >
+            <Link href="/shop/add">
+              <FontAwesomeIcon
+                icon={faCirclePlus}
+                className="h-10 cursor-pointer hover:text-teal-700"
+              />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ const Header = () => {
   const { data: session } = useSession()
 
   return (
-    <div className="al flex items-center justify-between">
+    <div className="flex items-center justify-between p-6">
       <h1 className="text-3xl font-bold capitalize">{session?.user?.name}</h1>
       <button
         className="rounded-full px-10 py-3 font-semibold no-underline transition"
