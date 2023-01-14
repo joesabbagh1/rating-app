@@ -2,6 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons'
 import React, { useMemo, FC } from 'react'
 import { Shop } from '@prisma/client'
+import Image from 'next/image'
+import younes from './images/younes.jpeg'
+import { router } from '../server/trpc/trpc'
 
 type getIcon = (idx: number) => any
 
@@ -12,9 +15,6 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   const getIcon: getIcon = (idx) => {
     if (idx <= coffeeShop.rating) {
       return faStar
-    }
-    if (idx > coffeeShop.rating && idx === Math.ceil(coffeeShop.rating)) {
-      return faStarHalf
     }
   }
 
@@ -40,18 +40,18 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
 				text-grey-700
 				min-h-[18rem]
 				max-w-[20rem]
-				overflow-hidden
-				rounded-md
-				shadow-lg
+				cursor-pointer
+        overflow-hidden
+        rounded-2xl bg-white shadow-xl
+        shadow-slate-900/10 transition duration-300 ease-in-out hover:scale-105
 			"
     >
-      <div className="flex-col gap-3 p-5">
+      <Image src={younes} alt="" />
+      <div className="flex-col gap-3 p-8">
         <h2 className="text-2xl font-bold">{coffeeShop.title}</h2>
         <span className="text-lg font-semibold">Price: {getPrice()}</span>
-        <div>
-          {starRating}
-          <span className="text-sm font-semibold">~{coffeeShop.rating}</span>
-        </div>
+        <div>{starRating}</div>
+        <div className="text-right text-lg font-light italic">By {coffeeShop.userName}</div>
       </div>
     </div>
   )

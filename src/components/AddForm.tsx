@@ -6,6 +6,7 @@ import { trpc } from '../utils/trpc'
 import Rate from './Rate'
 import * as yup from 'yup'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 const AddForm = () => {
   const validationSchema = yup.object().shape({
@@ -23,6 +24,8 @@ const AddForm = () => {
     resolver: yupResolver(validationSchema),
   })
 
+  const session = useSession()
+
   const prices = ['$', '$$', '$$$', '$$$$']
 
   const [selectedPrice, setSelectedPrice] = useState(0)
@@ -31,24 +34,29 @@ const AddForm = () => {
   useEffect(() => {
     setValue('priceTag', '$'.repeat(selectedPrice))
     setValue('rating', rating)
-  }, [selectedPrice])
+    setValue('userId', session?.data?.user?.id ?? '')
+    setValue('userName', session?.data?.user?.name ?? '')
+  }, [selectedPrice, rating, session.data?.user?.id, session?.data?.user?.name])
 
   const mutation = trpc.shops.createShop.useMutation()
-  const handleCreation = (data: any) => {
-    mutation.mutate(data)
+
+  async function handleCreation(data: any) {
+    await mutation.mutateAsync(data)
+    router.push('/home', undefined, { shallow: false })
   }
 
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<Shop> = (data) => {
+  const onSubmit: SubmitHandler<Shop> = async (data) => {
+    console.log(data)
     handleCreation(data)
-    router.push('/home', undefined, { shallow: false })
   }
 
   return (
-    <div className="text-center text-5xl">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col items-start gap-1">
+    <div className="p-10">
+      <div className="text-center text-4xl font-bold">Add Item</div>
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-20 flex justify-center">
+        <div className="flex w-1/3 flex-col gap-1">
           <div className="text-2xl capitalize">title</div>
           <input
             {...register('title', { required: true })}
@@ -88,14 +96,7 @@ const AddForm = () => {
           <div className="mt-4 mb-2 text-start text-2xl capitalize">image</div>
           <input
             type="file"
-            className="text-grey-500 text-sm
-                          file:mr-5 file:rounded-full file:border-0
-                          file:bg-teal-50 file:py-2
-                          file:px-6 file:text-sm
-                          file:font-medium file:text-teal-700
-                          hover:file:cursor-pointer hover:file:bg-blue-50
-                          hover:file:text-blue-700
-                        "
+            className="text-grey-500 text-sm file:mr-5 file:rounded-full file:border-0 file:bg-teal-50 file:py-2 file:px-6 file:text-sm file:font-medium file:text-teal-700 hover:file:cursor-pointer hover:file:bg-blue-50 hover:file:text-blue-700"
           />
           <div className="modal-action flex justify-end">
             <button type="submit" className="btn mt-4 bg-teal-700 text-white">
