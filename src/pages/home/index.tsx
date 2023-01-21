@@ -23,7 +23,7 @@ const Home: NextPage = () => {
     <div className="p-6 px-12">
       <div>
         <h1 className="py-8 text-3xl">Shops</h1>
-        <div className="grid grid-cols-2 gap-5 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
           {shops?.map((coffeeShop, idx) => (
             <CoffeeShop key={idx} coffeeShop={coffeeShop} />
           ))}

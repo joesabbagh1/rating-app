@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import React, { useMemo, FC } from 'react'
 import { Shop } from '@prisma/client'
 import Image from 'next/image'
@@ -34,31 +34,11 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   }, [coffeeShop.rating, getIcon])
 
   return (
-    // <div
-    //   className="
-    // 		bg-white-100
-    // 		text-grey-700
-    // 		min-h-[18rem]
-    // 		max-w-[20rem]
-    // 		cursor-pointer
-    //     overflow-hidden
-    //     rounded-2xl bg-white shadow-xl
-    //     shadow-slate-900/10 transition duration-300 ease-in-out hover:scale-105
-    // 	"
-    // >
-    //   <Image src={younes} alt="" />
-    //   <div className="flex-col gap-3 p-8">
-    //     <h2 className="text-2xl font-bold">{coffeeShop.title}</h2>
-    //     <span className="text-lg font-semibold">Price: {getPrice()}</span>
-    //     <div>{starRating}</div>
-    //     <div className="text-right text-lg font-light italic">By {coffeeShop.userName}</div>
-    //   </div>
-    // </div>
-    <div className="">
-      <Image src={younes} alt="" />
-      <div className="flex-col gap-3">
-        <div className="mt-3 text-2xl font-extralight">{coffeeShop.title}</div>
-        <span className="text-lg font-light">Price: {getPrice()}</span>
+    <div className="ransition cursor-pointer flex-col gap-3 decoration-slate-800 duration-100 ease-in-out hover:bg-white hover:opacity-80">
+      <Image src={younes} alt="" className="" />
+      <div className="mt-3 text-lg font-semibold decoration-8">{coffeeShop.title}</div>
+      <span className="text-lg font-light">Price: {getPrice()}</span>
+      <div className="flex justify-between">
         <div>
           {starRating} <span className="text-sm font-light">1 review</span>
         </div>
