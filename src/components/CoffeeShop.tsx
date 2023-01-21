@@ -5,6 +5,7 @@ import { Shop } from '@prisma/client'
 import Image from 'next/image'
 import younes from './images/younes.jpeg'
 import { router } from '../server/trpc/trpc'
+import Link from 'next/link'
 
 type getIcon = (idx: number) => any
 
@@ -34,16 +35,18 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   }, [coffeeShop.rating, getIcon])
 
   return (
-    <div className="ransition cursor-pointer flex-col gap-3 decoration-slate-800 duration-100 ease-in-out hover:bg-white hover:opacity-80">
-      <Image src={younes} alt="" className="" />
-      <div className="mt-3 text-lg font-semibold decoration-8">{coffeeShop.title}</div>
-      <span className="text-lg font-light">Price: {getPrice()}</span>
-      <div className="flex justify-between">
-        <div>
-          {starRating} <span className="text-sm font-light">1 review</span>
+    <Link href={{ pathname: `/shop/${coffeeShop.id}` }}>
+      <div className="ransition cursor-pointer flex-col gap-3 decoration-slate-800 duration-100 ease-in-out hover:bg-white hover:opacity-80">
+        <Image src={younes} alt="" className="" />
+        <div className="mt-3 text-lg font-semibold decoration-8">{coffeeShop.title}</div>
+        <span className="text-lg font-light">Price: {getPrice()}</span>
+        <div className="flex justify-between">
+          <div>
+            {starRating} <span className="text-sm font-light">1 review</span>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
