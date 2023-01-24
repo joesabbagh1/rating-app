@@ -16,7 +16,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
   const shop = trpc.shops.getById.useQuery(shopId).data
 
   return (
-    <div className="grid grid-cols-2 gap-40 p-12">
+    <div className="grid grid-cols-2 gap-8 p-12">
       <div className="flex flex-col">
         <Image height={400} src={younes} alt="" className="rounded-t-2xl" />
         <div>
