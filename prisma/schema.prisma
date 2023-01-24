@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -63,8 +57,6 @@ model User {
 model Shop {
   id         String     @id @default(cuid())
   title      String
-  priceTag   String
-  rating     Int
   Review     Review[]
   userId     String?
   Favourites Favorite[]
@@ -79,10 +71,14 @@ model Favorite {
 }
 
 model Review {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  shop   Shop   @relation(fields: [shopId], references: [id])
-  shopId String
-  text   String
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  shopId    String
+  title     String
+  text      String
+  priceTag  String
+  rating    Int
+  createdAt DateTime @default(now())
 }
