@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 import React, { useMemo, FC } from 'react'
 import { Shop } from '@prisma/client'
 import Image from 'next/image'
