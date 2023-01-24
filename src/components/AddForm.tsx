@@ -7,6 +7,9 @@ import Rate from './Rate'
 import * as yup from 'yup'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMartiniGlass, faMugHot, faUtensils, IconPrefix } from '@fortawesome/free-solid-svg-icons'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 const AddForm = () => {
   const validationSchema = yup.object().shape({
@@ -26,15 +29,19 @@ const AddForm = () => {
 
   const session = useSession()
 
+  const types = [{ title: 'coffee shop' }, { title: 'restaurant' }, { title: 'bar' }]
+
+  const [selectedType, setSelectedType] = useState<number>()
+
   const prices = ['$', '$$', '$$$', '$$$$']
 
   const [selectedPrice, setSelectedPrice] = useState(0)
   const [rating, setRating] = useState(0)
 
-  useEffect(() => {
-    setValue('priceTag', '$'.repeat(selectedPrice))
-    setValue('rating', rating)
-  }, [selectedPrice, rating])
+  // useEffect(() => {
+  //   setValue('priceTag', '$'.repeat(selectedPrice))
+  //   setValue('rating', rating)
+  // }, [selectedPrice, rating])
 
   const mutation = trpc.shops.createShop.useMutation()
 
@@ -51,8 +58,34 @@ const AddForm = () => {
   }
 
   return (
-    <div className="p-10">
-      <div className="text-center text-4xl font-bold">Add Item</div>
+    <div className="p-12 px-24">
+      <div>
+        <div className="text-6xl font-extrabold">What kinda of place it is?</div>
+        <div className="mt-16 flex gap-10">
+          <div
+            className="cursor-pointer rounded-full border-2 border-gray-400 px-4 hover:border-black"
+            onClick={() => setSelectedType(0)}
+          >
+            <FontAwesomeIcon icon={faMugHot} />
+            <span className="ml-3 text-lg font-light">coffee shop</span>
+          </div>
+          <div
+            className="cursor-pointer rounded-full border-2 border-gray-400 px-4 hover:border-black"
+            onClick={() => setSelectedType(1)}
+          >
+            <FontAwesomeIcon icon={faUtensils} />
+            <span className="ml-3 text-lg font-light">restaurant</span>
+          </div>
+          <div
+            className="cursor-pointer rounded-full border-2 border-gray-400 px-4 hover:border-black"
+            onClick={() => setSelectedType(2)}
+          >
+            <FontAwesomeIcon icon={faMartiniGlass} />
+            <span className="ml-3 text-lg font-light">bar</span>
+          </div>
+        </div>
+      </div>
+      {/* <div className="text-start text-4xl font-bold">Add a place</div>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-20 flex justify-center">
         <div className="flex w-1/3 flex-col gap-1">
           <div className="text-2xl capitalize">title</div>
@@ -102,7 +135,7 @@ const AddForm = () => {
             </button>
           </div>
         </div>
-      </form>
+      </form> */}
     </div>
   )
 }
