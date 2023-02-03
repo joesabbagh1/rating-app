@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useMemo, FC } from 'react'
-import { Shop } from '@prisma/client'
 import Image from 'next/image'
 import younes from '../../../components/images/younes.jpeg'
 import Link from 'next/link'

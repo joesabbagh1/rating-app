@@ -86,12 +86,18 @@ const Shop: FC<{ shop: Shop }> = ({ shop }) => {
         <div className="cursor-pointer flex-col gap-3 transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
           <Image src={younes} alt="" />
           <div className="mt-3 text-lg font-semibold decoration-8">{shop.title}</div>
-          <span className="text-lg font-light">Price: {getPrice()}</span>
-          <div className="flex justify-between">
-            <div>
-              {starRating} <span className="text-sm font-light">1 review</span>
-            </div>
-          </div>
+          {shop.rating && shop.price ? (
+            <>
+              <span className="text-lg font-light">Price: {getPrice()}</span>
+              <div className="flex justify-between">
+                <div>
+                  {starRating} <span className="text-sm font-light">1 review</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div>No reviews yet</div>
+          )}
         </div>
       </Link>
     </div>

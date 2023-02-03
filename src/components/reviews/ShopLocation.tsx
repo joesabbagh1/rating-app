@@ -7,7 +7,7 @@ import pic from '../images/pic.jpeg'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 
-const Shop: FC = () => {
+const ShopLocation: FC = () => {
   return (
     <div>
       <div className="py-3">
@@ -18,4 +18,4 @@ const Shop: FC = () => {
   )
 }
 
-export default Shop
+export default ShopLocation

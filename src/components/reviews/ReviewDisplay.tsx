@@ -7,7 +7,7 @@ import pic from '../images/pic.jpeg'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 
-const Shop: FC = () => {
+const ReviewDisplay: FC = () => {
   return (
     <div>
       <div className="divider text-black"></div>
@@ -39,4 +39,4 @@ const Shop: FC = () => {
   )
 }
 
-export default Shop
+export default ReviewDisplay

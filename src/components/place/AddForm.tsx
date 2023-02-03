@@ -58,7 +58,7 @@ const AddForm = () => {
 
   return (
     <div className="p-12 px-24">
-      <div className="text-6xl font-extrabold">What kinda of place it is?</div>
+      <div className="text-6xl font-extrabold">What kind of place it is?</div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-16 flex gap-10">
           <div
