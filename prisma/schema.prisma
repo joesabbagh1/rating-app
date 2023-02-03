@@ -62,6 +62,8 @@ model Shop {
   city           String
   street         String?
   additionalInfo String?
+  rating         Int?
+  price          Int?
   userId         String?
   Favourites     Favorite[]
   locationId     String?

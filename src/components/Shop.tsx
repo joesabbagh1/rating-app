@@ -11,15 +11,12 @@ import { useSession } from 'next-auth/react'
 
 type getIcon = (idx: number) => any
 
-type coffeeShop = {
-  coffeeShop: Shop
-}
-const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
+const Shop: FC<{ shop: Shop }> = ({ shop }) => {
   const session = useSession()
 
   const favShop = trpc.favorite.getById.useQuery({
     userId: session.data?.user?.id,
-    shopId: coffeeShop.id,
+    shopId: shop.id,
   })
 
   const [favorite, setFavorite] = useState(false)
@@ -30,15 +27,17 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   }, [favShop.data])
 
   const getIcon: getIcon = (idx) => {
-    if (idx <= coffeeShop.rating) {
+    if (shop.rating && idx <= shop.rating) {
       return faStar
     }
   }
 
   const getPrice = () => {
     let price = ''
-    for (let i = 0; i < coffeeShop.priceTag.length; i++) {
-      price += '$'
+    if (shop.price) {
+      for (let i = 0; i < shop.price; i++) {
+        price += '$'
+      }
     }
     return price
   }
@@ -48,7 +47,7 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
       .fill(0)
       .map((_, i) => i + 1)
       .map((idx) => <FontAwesomeIcon key={idx} icon={getIcon(idx)} style={{ color: '#f5eb3b' }} />)
-  }, [coffeeShop.rating, getIcon])
+  }, [shop.rating, getIcon])
 
   const createMutation = trpc.favorite.createFavorite.useMutation()
 
@@ -65,9 +64,9 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   async function handleFavShop() {
     setFavorite(!favorite)
     if (!favorite) {
-      handleCreation({ userId: session.data?.user?.id, shopId: coffeeShop.id })
+      handleCreation({ userId: session.data?.user?.id, shopId: shop.id })
     } else {
-      handleDeletion({ userId: session.data?.user?.id, shopId: coffeeShop.id })
+      handleDeletion({ userId: session.data?.user?.id, shopId: shop.id })
     }
   }
 
@@ -83,10 +82,10 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
           color={favorite ? 'red' : 'black'}
         />
       </button>
-      <Link href={{ pathname: `/shop/${coffeeShop.id}` }}>
+      <Link href={{ pathname: `/shop/${shop.id}` }}>
         <div className="cursor-pointer flex-col gap-3 transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
           <Image src={younes} alt="" />
-          <div className="mt-3 text-lg font-semibold decoration-8">{coffeeShop.title}</div>
+          <div className="mt-3 text-lg font-semibold decoration-8">{shop.title}</div>
           <span className="text-lg font-light">Price: {getPrice()}</span>
           <div className="flex justify-between">
             <div>
@@ -99,4 +98,4 @@ const CoffeeShop: FC<coffeeShop> = ({ coffeeShop }) => {
   )
 }
 
-export default CoffeeShop
+export default Shop

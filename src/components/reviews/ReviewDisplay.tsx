@@ -7,7 +7,7 @@ import pic from '../images/pic.jpeg'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 
-const CoffeeShop: FC = () => {
+const Shop: FC = () => {
   return (
     <div>
       <div className="divider text-black"></div>
@@ -39,4 +39,4 @@ const CoffeeShop: FC = () => {
   )
 }
 
-export default CoffeeShop
+export default Shop

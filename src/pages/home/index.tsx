@@ -1,7 +1,7 @@
 import { type NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
-import CoffeeShop from '../../components/CoffeeShop'
+import ShopComp from '../../components/Shop'
 import { trpc } from '../../utils/trpc'
 import { Shop } from '@prisma/client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -24,8 +24,8 @@ const Home: NextPage = () => {
       <div>
         <h1 className="pb-8 text-3xl">Shops</h1>
         <div className="grid grid-cols-2 gap-5 gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
-          {shops?.map((coffeeShop, idx) => (
-            <CoffeeShop key={idx} coffeeShop={coffeeShop} />
+          {shops?.map((shop, idx) => (
+            <ShopComp key={idx} shop={shop} />
           ))}
           <div
             className="
@@ -37,10 +37,7 @@ const Home: NextPage = () => {
           "
           >
             <Link href="/shop/add">
-              <FontAwesomeIcon
-                icon={faCirclePlus}
-                className="h-10 cursor-pointer hover:text-teal-700"
-              />
+              <FontAwesomeIcon icon={faCirclePlus} className="h-10 cursor-pointer" />
             </Link>
           </div>
         </div>
@@ -48,8 +45,8 @@ const Home: NextPage = () => {
       <div className="mt-28">
         <h1 className="py-8 text-3xl">Recent Reviews</h1>
         <div className="grid grid-cols-2 gap-12 sm:grid-cols-2 lg:grid-cols-4">
-          {shops?.map((coffeeShop, idx) => (
-            <CoffeeShop key={idx} coffeeShop={coffeeShop} />
+          {shops?.map((shop, idx) => (
+            <ShopComp key={idx} shop={shop} />
           ))}
           <div
             className="
