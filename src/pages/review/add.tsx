@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react'
-import AddForm from '../../components/AddForm'
+import AddForm from '../../components/place/AddForm'
 
 const shopAdd: NextPage = () => {
   return (

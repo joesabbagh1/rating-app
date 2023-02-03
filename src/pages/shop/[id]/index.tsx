@@ -38,15 +38,15 @@ export const getServerSideProps = async (context: any) => {
 
   const { id: shopId } = context.query
 
-  if (!session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `api/auth/signin`,
-      },
-    }
-  } else {
-    return { props: { shopId } }
-  }
+  // if (!session) {
+  //   return {
+  //     redirect: {
+  //       permanent: false,
+  //       destination: `api/auth/signin`,
+  //     },
+  //   }
+  // } else {
+  return { props: { shopId } }
+  // }
 }
 export default ShopPage
