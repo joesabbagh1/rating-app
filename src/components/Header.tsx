@@ -31,8 +31,8 @@ const Header = () => {
         </Link>
         <input
           type="text"
-          placeholder="Type here"
-          className="input-bordered input mx-4 h-10 w-80 max-w-md rounded-3xl"
+          placeholder="Search here"
+          className="mx-4 h-10 w-80 max-w-md rounded-3xl border p-3 px-4 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
         />
       </div>
       <div className="flex items-center gap-10">

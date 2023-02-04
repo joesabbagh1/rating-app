@@ -1,11 +1,11 @@
 import { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react'
-import AddForm from '../../components/shop/AddForm'
+import AddReview from '../../components/reviews/AddReview'
 
 const shopAdd: NextPage = () => {
   return (
     <>
-      <AddForm />
+      <AddReview />
     </>
   )
 }

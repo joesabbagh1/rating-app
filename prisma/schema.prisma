@@ -79,14 +79,14 @@ model Favorite {
 }
 
 model Review {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  shop      Shop     @relation(fields: [shopId], references: [id])
-  shopId    String
-  title     String
-  text      String
-  priceTag  String
-  rating    Int
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       String
+  rating      Int
+  userId      String
+  shopId      String
+  shop        Shop     @relation(fields: [shopId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
 }
