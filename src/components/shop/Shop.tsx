@@ -4,10 +4,10 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import React, { useMemo, FC, useState, useEffect } from 'react'
 import { Shop } from '@prisma/client'
 import Image from 'next/image'
-import younes from './images/younes.jpeg'
 import Link from 'next/link'
-import { trpc } from '../utils/trpc'
+import { trpc } from '../../utils/trpc'
 import { useSession } from 'next-auth/react'
+import pic from '../images/pic.jpeg'
 
 type getIcon = (idx: number) => any
 
@@ -84,7 +84,7 @@ const Shop: FC<{ shop: Shop }> = ({ shop }) => {
       </button>
       <Link href={{ pathname: `/shop/${shop.id}` }}>
         <div className="cursor-pointer flex-col gap-3 transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
-          <Image src={younes} alt="" />
+          <Image src={pic} alt="" />
           <div className="mt-3 text-lg font-semibold decoration-8">{shop.title}</div>
           {shop.rating && shop.price ? (
             <>

@@ -1,7 +1,7 @@
 import { type NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
-import ShopComp from '../../components/Shop'
+import ShopComp from '../../components/shop/Shop'
 import { trpc } from '../../utils/trpc'
 import { Shop } from '@prisma/client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

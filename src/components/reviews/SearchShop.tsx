@@ -12,42 +12,9 @@ import clsx from 'clsx'
 import Image from 'next/image'
 
 const AddReview = () => {
-  const validationSchema = yup.object().shape({
-    title: yup.string().required('Required'),
-    description: yup.string().required('Required'),
-    price: yup.string().required('Required'),
-    rating: yup.string(),
-  })
-
-  const session = useSession()
-  const router = useRouter()
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<Review>({
-    resolver: yupResolver(validationSchema),
-  })
-
-  //trpc create a review
-  // const mutation = trpc.reviews.useMutation()
-
-  // async function handleCreation(data: any) {
-  //   await mutation.mutateAsync(data)
-  //   router.push('/home', undefined, { shallow: false })
-  // }
-
-  const onSubmit: SubmitHandler<Review> = async (data) => {
-    console.log(data)
-    // handleCreation(data)
-  }
-
   const [query, setQuery] = useState<string>('')
   const [suggestions, setSuggestions] = useState<Shop[] | null>()
   const [showRes, setShowRes] = useState<boolean>(false)
-  const [selectedShop, setSelectedShop] = useState<Shop>()
 
   const ref = useRef<HTMLDivElement>(null)
   const handleClickOutside = (event: MouseEvent) => {
@@ -62,56 +29,69 @@ const AddReview = () => {
     }
   }, [])
 
-  const { error, data, refetch } = trpc.shops.getByName.useQuery(query, { enabled: false })
+  const { refetch } = trpc.shops.getByName.useQuery(query, { enabled: false })
 
   useEffect(() => {
     if (!query) {
       setSuggestions(null)
     }
-    const getData = setTimeout(() => {
+    const getData = setTimeout(async () => {
       if (query) {
-        refetch()
+        const { data } = await refetch()
         setSuggestions(data)
       }
     }, 500)
     return () => clearTimeout(getData)
   }, [query])
 
+  const router = useRouter()
+  function redirectShop(shopId: string) {
+    router.push(`/review/add/${shopId}`)
+  }
+  useEffect(() => {
+    if (query) {
+      setShowRes(true)
+    } else {
+      setShowRes(false)
+    }
+  }, [query])
+
   return (
     <div className="p-12 px-24">
       <div className="flex flex-col items-center justify-center gap-6">
-        <div className="mb-12 text-4xl font-bold">Search for the place you want to review</div>
+        <div className="text-4xl font-bold">Search for the place you want to review</div>
         <div
           ref={ref}
-          className={clsx('mx-96 flex w-1/2 flex-col items-center p-6', {
-            'bg-slate-400': showRes && suggestions,
+          className={clsx('mx-96 flex w-1/2 flex-col items-center rounded-lg pt-6 pb-3', {
+            'bg-cyan-100': showRes && suggestions,
           })}
         >
-          <input
-            type="text"
-            placeholder="Search here"
-            className="h-10 w-full rounded-3xl border py-3 px-4 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onClick={() => {
-              setShowRes(true)
-            }}
-          />
-          {query && showRes && (
+          <div className="w-full px-6">
+            <input
+              type="text"
+              placeholder="Search here"
+              className="mb-3 h-10 w-full rounded-3xl border py-3 px-4 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onClick={() => {
+                setShowRes(true)
+              }}
+            />
+          </div>
+          {showRes && (
             <div className="w-full">
               {suggestions?.map((suggestion) => (
                 <div
-                  className="hover:bg-white"
+                  className="cursor-pointer px-6 py-3 transition duration-200 ease-in-out hover:bg-black hover:bg-opacity-5"
                   onClick={() => {
-                    setSelectedShop(suggestion), setShowRes(false), setQuery(suggestion.title)
+                    setShowRes(false), setQuery(suggestion.title), redirectShop(suggestion.id)
                   }}
                 >
-                  <div className="divider my-0"></div>
                   <div className="flex items-center gap-1" key={suggestion.id}>
                     <Image
                       src={pic}
                       alt=""
-                      className="h-14 w-14 rounded-lg object-cover object-center"
+                      className="z-50 h-14 w-14 rounded-lg object-cover object-center"
                     />
                     <div>
                       <div className="text-sm font-bold">{suggestion.title}</div>
@@ -126,17 +106,6 @@ const AddReview = () => {
           )}
         </div>
       </div>
-      {selectedShop && (
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className={clsx('', {
-            'opacity-100 transition-all duration-1000': selectedShop,
-            'opacity-0 ': !selectedShop,
-          })}
-        >
-          <div>adsjfsjkldflk </div>
-        </form>
-      )}
     </div>
   )
 }
