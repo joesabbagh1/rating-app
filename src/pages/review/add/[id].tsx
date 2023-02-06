@@ -57,7 +57,7 @@ const AddReview = (shop: Shop) => {
 
   async function handleCreation(data: any) {
     await mutation.mutateAsync(data)
-    // router.push('/home', undefined, { shallow: false })
+    router.push('/home', undefined, { shallow: false })
   }
 
   const router = useRouter()

@@ -1,38 +1,51 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import React, { useMemo, FC, useState, useEffect } from 'react'
-import { Shop } from '@prisma/client'
+import { Review, Shop } from '@prisma/client'
 import Image from 'next/image'
 import pic from '../images/pic.jpeg'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
+import { trpc } from '../../utils/trpc'
 
-const ReviewDisplay: FC = () => {
+const ReviewDisplay: FC<{ review: Review }> = ({ review }) => {
+  const user = trpc.users.getById.useQuery(review.userId).data
+
+  const ReviewStars = () => {
+    let stars = []
+    for (let i = 0; i < review.rating; i++) {
+      stars.push(
+        <span key={i}>
+          <FontAwesomeIcon icon={faStar} style={{ color: '#f5eb3b' }} />
+        </span>
+      )
+    }
+    return <div>{stars}</div>
+  }
+
+  const formattedDate = review.createdAt.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+
   return (
     <div>
       <div className="divider text-black"></div>
-      <div className="flex">
-        <div className="flex w-1/4 flex-col">
-          <Image src={pic} alt="" className="h-36 w-36 rounded-full object-cover object-center" />
+      <div className="flex gap-10">
+        <div className="flex flex-col items-center justify-center gap-2">
+          <Image src={pic} alt="" className="h-24 w-24 rounded-full object-cover object-center" />
+          <div className="font-extralight capitalize italic">{user?.name}</div>
         </div>
-        <div className="ml-6 w-3/4 pt-1 pr-5">
-          <div className="flex items-center text-xl">
-            <div>Dinner</div>
-            <div className="ml-3 flex items-center justify-center">
-              <FontAwesomeIcon icon={faStar} style={{ color: '#f5eb3b' }} />
-              <FontAwesomeIcon icon={faStar} style={{ color: '#f5eb3b' }} />
-              <FontAwesomeIcon icon={faStar} style={{ color: '#f5eb3b' }} />
-              <FontAwesomeIcon icon={faStar} style={{ color: '#f5eb3b' }} />
-              <FontAwesomeIcon icon={faStar} style={{ color: '#f5eb3b' }} />
+        <div className="flex flex-col justify-between pt-1 pr-5">
+          <div>
+            <div className="flex items-center text-xl">
+              <div>{review.title}</div>
+              <div className="ml-3 flex items-center justify-center">{ReviewStars()}</div>
             </div>
+            <div className="font-light">{review.description}</div>
           </div>
-          <div className="font-light">
-            We had: Black Onyx sliders w/ fries- yummy slider, juice and didn’t need much beyond the
-            cheese and flavored Mayo. Would order again Spicy Black Onyx Empanada- Would order again
-            Spicy Black Onyx Empanada- Would order again Spicy Black Onyx Empanada- Would order
-            again Spicy Black Onyx Empanada- not bad, good flavor. Not a must have again.{' '}
-          </div>
-          <div className="font-extralight italic">~Batata</div>
+          <div className="text-sm font-light">Reviewed at {formattedDate}</div>
         </div>
       </div>
     </div>

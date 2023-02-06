@@ -12,6 +12,7 @@ import ShopLocation from '../../../components/reviews/ShopLocation'
 
 const ShopPage: NextPage<any> = ({ shopId }) => {
   const shop = trpc.shops.getById.useQuery(shopId).data
+  const reviews = trpc.reviews.getByShop.useQuery(shopId).data
 
   return (
     <div className="grid grid-cols-2 gap-8 p-12">
@@ -23,10 +24,9 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
       </div>
       <div>
         <div className=" text-4xl font-bold">Reviews</div>
-        <ReviewDisplay />
-        <ReviewDisplay />
-        <ReviewDisplay />
-        <ReviewDisplay />
+        {reviews?.map((review) => (
+          <ReviewDisplay review={review} />
+        ))}
       </div>
     </div>
   )

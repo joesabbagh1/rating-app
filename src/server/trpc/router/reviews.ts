@@ -1,23 +1,31 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure } from '../trpc'
 
-export const reviewRouter = router({        
+export const reviewRouter = router({
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.review.findMany();
+    return ctx.prisma.review.findMany()
+  }),
+
+  getByShop: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return await ctx.prisma.review.findMany({
+      where: {
+        shopId: input,
+      },
+    })
   }),
 
   getById: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return await ctx.prisma.review.findUnique({
       where: {
-        id: input
-      }
-    });
+        id: input,
+      },
+    })
   }),
 
-  createReview: publicProcedure.input(z.any()).mutation(async ({ctx, input})=>{
+  createReview: publicProcedure.input(z.any()).mutation(async ({ ctx, input }) => {
     await ctx.prisma.review.create({
-      data: input
-     })
-  })
-});
+      data: input,
+    })
+  }),
+})
