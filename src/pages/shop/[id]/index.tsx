@@ -120,11 +120,11 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
           <div className="text-3xl">
             According to {reviewsCount} reviewer{reviewsCount === 1 ? '' : 's'}:
           </div>
-          <div className="rounded-3xl border-2 border-gray-400 p-6">
+          <div className="rounded-3xl border-2 border-black p-6">
             <div className="pb-3 text-2xl font-medium">Average Rating:</div>
             <div>{ReviewStars()}</div>
           </div>
-          <div className="rounded-3xl border-2 border-gray-400 p-6">
+          <div className="rounded-3xl border-2 border-black p-6">
             <div className="pb-3 text-2xl font-medium">Price Range:</div>
             <div className="text-xl font-light">{PriceRange()}</div>
           </div>
@@ -138,7 +138,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
           </button>
         </div>
       </div>
-      <div className="mt-12 mb-24 flex flex-col items-center justify-center">
+      <div className="mt-20 mb-24 flex flex-col items-center justify-center">
         <button
           className="btn-primary btn rounded-3xl hover:bg-white hover:text-black"
           onClick={() => scrollToReviews()}

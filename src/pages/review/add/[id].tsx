@@ -16,6 +16,7 @@ import { appRouter } from '../../../server/trpc/router/_app'
 import { createContext } from '../../../server/trpc/context'
 import ShopLocation from '../../../components/reviews/ShopLocation'
 import Rate from '../../../components/Rate'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 const AddReview = (shop: Shop) => {
   const validationSchema = yup.object().shape({
@@ -72,10 +73,16 @@ const AddReview = (shop: Shop) => {
     <div className="p-12 px-24">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-24">
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-1">
             <Image height={500} src={pic} alt="" className="rounded-t-2xl" />
-            <div>
-              <ShopLocation />
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-light capitalize">{shop?.title}</div>
+              <div>
+                <FontAwesomeIcon size="lg" icon={faLocationDot} />
+                <span className="pl-2 font-light italic">
+                  {shop?.city}, {shop?.street}
+                </span>
+              </div>
             </div>
           </div>
           <div>
