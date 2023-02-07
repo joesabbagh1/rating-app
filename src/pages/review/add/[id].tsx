@@ -21,14 +21,14 @@ const AddReview = (shop: Shop) => {
   const validationSchema = yup.object().shape({
     title: yup.string().required('Required'),
     description: yup.string().required('Required'),
-    price: yup.string().required('Required'),
+    price: yup.number().required('Required'),
     rating: yup.number().required('Required'),
   })
 
   const { data: session } = useSession()
 
   const [rating, setRating] = useState<number>(0)
-  const [price, setPrice] = useState<string>('')
+  const [price, setPrice] = useState<number>(0)
 
   const {
     register,
@@ -41,15 +41,16 @@ const AddReview = (shop: Shop) => {
 
   function handlePrice(priceInput: string) {
     if (priceInput === '0') {
-      setPrice('Cheap')
+      setPrice(1)
     } else if (priceInput === '50') {
-      setPrice('Mid-range')
+      setPrice(2)
     } else {
-      setPrice('Expensive')
+      setPrice(3)
     }
   }
 
   useEffect(() => {
+    console.log(price)
     setValue('price', price)
     setValue('rating', rating)
   }, [price, rating])
@@ -70,9 +71,9 @@ const AddReview = (shop: Shop) => {
   return (
     <div className="p-12 px-24">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 gap-24">
           <div className="flex flex-col">
-            <Image height={400} src={pic} alt="" className="rounded-t-2xl" />
+            <Image height={500} src={pic} alt="" className="rounded-t-2xl" />
             <div>
               <ShopLocation />
             </div>
