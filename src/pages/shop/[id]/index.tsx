@@ -98,7 +98,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
             'invisible opacity-0': scrollY < 300,
           }
         )}
-        onClick={() => goTop}
+        onClick={() => goTop()}
       >
         <FontAwesomeIcon icon={faChevronUp} />
       </button>
