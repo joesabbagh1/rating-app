@@ -19,7 +19,13 @@ import {
 import clsx from 'clsx'
 
 const ShopPage: NextPage<any> = ({ shopId }) => {
+  const shop = trpc.shops.getById.useQuery(shopId).data
+  const reviews = trpc.reviews.getByShop.useQuery(shopId).data
+  const reviewsCount = trpc.reviews.getReviewsCountPerShop.useQuery(shopId).data
+
+  const ref = useRef<HTMLDivElement>(null)
   const [scrollY, setScrollY] = useState(0)
+  const [hover, setHover] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,19 +41,6 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
       behavior: 'smooth',
     })
   }
-
-  const shop = trpc.shops.getById.useQuery(shopId).data
-  const reviews = trpc.reviews.getByShop.useQuery(shopId).data
-
-  const ref = useRef<HTMLDivElement>(null)
-
-  const [imageHeight, setImageHeight] = useState<number>(0)
-  console.log(imageHeight)
-  const handleImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
-    setImageHeight(event.currentTarget.offsetHeight)
-  }
-
-  const reviewsCount = trpc.reviews.getReviewsCountPerShop.useQuery(shopId).data
 
   const ReviewStars = () => {
     let stars = []
@@ -81,7 +74,6 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
       ref.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
-  const [hover, setHover] = useState(false)
 
   const router = useRouter()
   function redirectShop() {
@@ -104,8 +96,35 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
       </button>
 
       <div className="grid grid-cols-2 gap-24">
+        <div className="flex flex-col justify-between">
+          <div className="text-3xl">
+            According to {reviewsCount} reviewer{reviewsCount === 1 ? '' : 's'}:
+          </div>
+          <div className="flex items-center">
+            <div className="mr-6 h-24 w-1 border-r-4 border-black"></div>
+            <div>
+              <div className="pb-3 text-2xl font-medium">Average Rating:</div>
+              <div>{ReviewStars()}</div>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <div className="mr-6 h-24 w-1 border-r-4 border-black"></div>
+            <div>
+              <div className="pb-3 text-2xl font-medium">Price Range:</div>
+              <div>{PriceRange()}</div>
+            </div>
+          </div>
+          <button
+            className="btn-primary btn w-36 hover:bg-white hover:text-black"
+            onClick={() => {
+              redirectShop()
+            }}
+          >
+            add a review
+          </button>
+        </div>
         <div className="flex flex-col gap-1">
-          <Image height={500} src={pic} alt="" className="rounded-t-2xl" onLoad={handleImageLoad} />
+          <Image height={500} src={pic} alt="" className="rounded-t-2xl" />
           <div className="flex items-center justify-between">
             <div className="text-lg font-light capitalize">{shop?.title}</div>
             <div>
@@ -115,27 +134,6 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
               </span>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col justify-between" style={{ height: imageHeight }}>
-          <div className="text-3xl">
-            According to {reviewsCount} reviewer{reviewsCount === 1 ? '' : 's'}:
-          </div>
-          <div className="rounded-3xl border-2 border-black p-6">
-            <div className="pb-3 text-2xl font-medium">Average Rating:</div>
-            <div>{ReviewStars()}</div>
-          </div>
-          <div className="rounded-3xl border-2 border-black p-6">
-            <div className="pb-3 text-2xl font-medium">Price Range:</div>
-            <div className="text-xl font-light">{PriceRange()}</div>
-          </div>
-          <button
-            className="btn-primary btn w-36 self-end hover:bg-white hover:text-black"
-            onClick={() => {
-              redirectShop()
-            }}
-          >
-            add a review
-          </button>
         </div>
       </div>
       <div className="mt-20 mb-24 flex flex-col items-center justify-center">
