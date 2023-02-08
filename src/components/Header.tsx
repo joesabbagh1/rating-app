@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { faPenToSquare, faHeart } from '@fortawesome/free-regular-svg-icons'
-import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare, faHeart, faSquarePlus } from '@fortawesome/free-regular-svg-icons'
+import { faAdd, faPen } from '@fortawesome/free-solid-svg-icons'
 import { useRef, useState, RefObject, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -40,9 +40,9 @@ const Header = () => {
           <FontAwesomeIcon size="xl" icon={faPenToSquare} />
           <span className="ml-2 text-xl font-semibold">Review</span>
         </Link>
-        <Link href="/profile">
-          <FontAwesomeIcon size="xl" icon={faHeart} />
-          <span className="ml-2 text-xl font-semibold">Places</span>
+        <Link href="/add/shop">
+          <FontAwesomeIcon size="xl" icon={faSquarePlus} />
+          <span className="ml-2 text-xl font-semibold">Place</span>
         </Link>
 
         {session ? (

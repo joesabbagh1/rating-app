@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMartiniGlass, faMugHot, faUtensils, IconPrefix } from '@fortawesome/free-solid-svg-icons'
+import { faMartiniGlass, faMugHot, faUtensils } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 
 const AddForm = () => {
@@ -124,7 +124,10 @@ const AddForm = () => {
                 </div>
               </div>
             </div>
-            <button className="btn mt-12 w-24" onClick={() => setStep(2)}>
+            <button
+              className="btn-primary btn mt-12 w-24 hover:bg-white hover:text-black"
+              onClick={() => setStep(2)}
+            >
               Next
             </button>
           </div>
@@ -157,10 +160,16 @@ const AddForm = () => {
               </div>
             </div>
             <div className="flex justify-between">
-              <button className="btn mt-12 h-2 w-24" onClick={() => setStep(1)}>
+              <button
+                className="btn-primary btn mt-12 h-2 w-24 hover:bg-white hover:text-black"
+                onClick={() => setStep(1)}
+              >
                 Back
               </button>
-              <button className="btn mt-12 h-2 w-24" type="submit">
+              <button
+                className="btn-primary btn mt-12 h-2 w-24 hover:bg-white hover:text-black"
+                type="submit"
+              >
                 Submit
               </button>
             </div>

@@ -64,10 +64,8 @@ model Shop {
   additionalInfo String?
   rating         Float?
   price          Float?
-  userId         String?
-  Favourites     Favorite? @relation(fields: [favoriteId], references: [id])
-  locationId     String?
   Review         Review[]
+  Favourites     Favorite? @relation(fields: [favoriteId], references: [id])
   favoriteId     String?
 }
 
