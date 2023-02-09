@@ -23,6 +23,31 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
     shopId: shop.id,
   })
 
+  const createMutation = trpc.favorite.createFavorite.useMutation()
+
+  async function handleCreation(data: any) {
+    await createMutation.mutateAsync(data)
+  }
+
+  const deleteMutation = trpc.favorite.deleteFavorite.useMutation()
+
+  async function handleDeletion(data: any) {
+    await deleteMutation.mutateAsync(data)
+  }
+
+  async function handleFavShop() {
+    setFavorite(!favorite)
+    if (!favorite) {
+      handleCreation({ userId: session.data?.user?.id, shopId: shop.id }).then(
+        async () => await refetch()
+      )
+    } else {
+      handleDeletion({ userId: session.data?.user?.id, shopId: shop.id }).then(
+        async () => await refetch()
+      )
+    }
+  }
+  const { data: reviewCount } = trpc.reviews.getReviewsCountPerShop.useQuery(shop.id)
   const [favorite, setFavorite] = useState(false)
 
   useEffect(() => {
@@ -55,31 +80,6 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
       .map((idx) => <FontAwesomeIcon key={idx} icon={getIcon(idx)} style={{ color: '#f5eb3b' }} />)
   }, [shop.rating, getIcon])
 
-  const createMutation = trpc.favorite.createFavorite.useMutation()
-
-  async function handleCreation(data: any) {
-    await createMutation.mutateAsync(data)
-  }
-
-  const deleteMutation = trpc.favorite.deleteFavorite.useMutation()
-
-  async function handleDeletion(data: any) {
-    await deleteMutation.mutateAsync(data)
-  }
-
-  async function handleFavShop() {
-    setFavorite(!favorite)
-    if (!favorite) {
-      handleCreation({ userId: session.data?.user?.id, shopId: shop.id }).then(
-        async () => await refetch()
-      )
-    } else {
-      handleDeletion({ userId: session.data?.user?.id, shopId: shop.id }).then(
-        async () => await refetch()
-      )
-    }
-  }
-
   return (
     <div className="relative">
       <button
@@ -101,7 +101,10 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
               <span className="text-lg font-light">Price: {getPrice()}</span>
               <div className="flex justify-between">
                 <div>
-                  {starRating} <span className="text-sm font-light">1 review</span>
+                  {starRating}{' '}
+                  <span className="text-sm font-light">
+                    {reviewCount} review{reviewCount === 1 ? '' : 's'}
+                  </span>
                 </div>
               </div>
             </>
