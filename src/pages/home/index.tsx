@@ -22,6 +22,7 @@ const Home: NextPage = () => {
 
   const ref = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(0)
+
   useEffect(() => {
     if (ref.current) {
       setWidth(ref.current.offsetWidth)
@@ -33,7 +34,8 @@ const Home: NextPage = () => {
 
   const { data: initialShops } = trpc.shops.getAll.useQuery()
   const { data: savedPlaces, refetch } = trpc.favorite.getAllShopPerUser.useQuery(
-    session?.user?.id ?? ''
+    session?.user?.id ?? '',
+    { enabled: !!session }
   )
 
   return (

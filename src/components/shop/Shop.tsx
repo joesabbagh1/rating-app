@@ -12,16 +12,21 @@ import pic from '../images/pic.jpeg'
 type getIcon = (idx: number) => any
 
 const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchParent }) => {
-  const session = useSession()
+  const { data: session } = useSession()
 
   const {
     data: favShop,
-    status,
+    isSuccess,
     refetch,
-  } = trpc.favorite.getById.useQuery({
-    userId: session.data?.user?.id,
-    shopId: shop.id,
-  })
+  } = trpc.favorite.getById.useQuery(
+    {
+      userId: session?.user?.id,
+      shopId: shop.id,
+    },
+    { enabled: !!session }
+  )
+
+  const [favorite, setFavorite] = useState<boolean>(isSuccess && !!favShop)
 
   const createMutation = trpc.favorite.createFavorite.useMutation()
 
@@ -38,24 +43,16 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
   async function handleFavShop() {
     setFavorite(!favorite)
     if (!favorite) {
-      handleCreation({ userId: session.data?.user?.id, shopId: shop.id }).then(
+      handleCreation({ userId: session?.user?.id, shopId: shop.id }).then(
         async () => await refetch()
       )
     } else {
-      handleDeletion({ userId: session.data?.user?.id, shopId: shop.id }).then(
+      handleDeletion({ userId: session?.user?.id, shopId: shop.id }).then(
         async () => await refetch()
       )
     }
   }
   const { data: reviewCount } = trpc.reviews.getReviewsCountPerShop.useQuery(shop.id)
-  const [favorite, setFavorite] = useState(false)
-
-  useEffect(() => {
-    if (status === 'success') {
-      setFavorite(favShop.length !== 0 ? true : false)
-    }
-    refetchParent()
-  }, [favShop])
 
   const getIcon: getIcon = (idx) => {
     if (shop.rating && idx <= shop.rating) {
