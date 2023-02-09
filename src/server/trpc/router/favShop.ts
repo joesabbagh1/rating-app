@@ -17,9 +17,13 @@ export const favoriteRouter = router({
   }),
 
   getAllShopPerUser: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return ctx.prisma.favorite.findMany({
+    return ctx.prisma.shop.findMany({
       where: {
-        userId: input,
+        UserFavorite: {
+          some: {
+            userId: input,
+          },
+        },
       },
     })
   }),

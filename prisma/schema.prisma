@@ -51,11 +51,11 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Review        Review[]
-  Favourites    Favorite[]
+  FavoriteShop  Favorite[]
 }
 
 model Shop {
-  id             String    @id @default(cuid())
+  id             String     @id @default(cuid())
   type           String
   title          String
   description    String
@@ -65,16 +65,16 @@ model Shop {
   rating         Float?
   price          Float?
   Review         Review[]
-  Favourites     Favorite? @relation(fields: [favoriteId], references: [id])
-  favoriteId     String?
+  UserFavorite   Favorite[]
 }
 
 model Favorite {
-  id     String @id @default(cuid())
   user   User   @relation(fields: [userId], references: [id])
   userId String
-  shops  Shop[]
+  shop   Shop   @relation(fields: [shopId], references: [id])
   shopId String
+
+  @@id([userId, shopId])
 }
 
 model Review {

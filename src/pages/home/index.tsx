@@ -29,20 +29,10 @@ const Home: NextPage = () => {
   }, [])
 
   const [title, setTitle] = useState<string>('All Places')
-  const [initialShops, setInitialShops] = useState<Shop[]>([])
-  const [SavedShops, setSavedShops] = useState([])
   const [display, setDisplay] = useState('all')
 
-  const allShops = trpc.shops.getAll.useQuery()
-  // const filteredResults = trpc.favorite.getAllShopPerUser.useQuery(session?.user?.id ?? '')
-  useEffect(() => {
-    if (allShops.status === 'success') {
-      setInitialShops(allShops.data)
-    }
-    // if (filteredResults.status === 'success') {
-    // setSavedShops(filteredResults.data)
-    // }
-  }, [allShops.data])
+  const initialShops = trpc.shops.getAll.useQuery().data
+  const savedPlaces = trpc.favorite.getAllShopPerUser.useQuery(session?.user?.id ?? '').data
 
   return (
     <div className="p-12 px-24">
@@ -66,7 +56,9 @@ const Home: NextPage = () => {
               'flex cursor-pointer items-center justify-between rounded-xl border border-black p-3 transition-all duration-200 hover:bg-black hover:text-white',
               { 'bg-black text-white': display === 'saved' }
             )}
-            onClick={() => setDisplay('saved')}
+            onClick={() => {
+              setDisplay('saved'), setTitle('Saved Places')
+            }}
             style={{ width: width }}
           >
             <div>Saved Places</div>
@@ -118,6 +110,12 @@ const Home: NextPage = () => {
         <div className="grid grid-cols-2 gap-5 gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
           {display === 'all' &&
             initialShops?.map((shop, idx) => (
+              <div>
+                <ShopComp key={idx} shop={shop} />
+              </div>
+            ))}
+          {display === 'saved' &&
+            savedPlaces?.map((shop, idx) => (
               <div>
                 <ShopComp key={idx} shop={shop} />
               </div>

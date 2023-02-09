@@ -40,7 +40,7 @@ const Header = () => {
           <FontAwesomeIcon size="xl" icon={faPenToSquare} />
           <span className="ml-2 text-xl font-semibold">Review</span>
         </Link>
-        <Link href="/add/shop">
+        <Link href="/shop/add">
           <FontAwesomeIcon size="xl" icon={faSquarePlus} />
           <span className="ml-2 text-xl font-semibold">Place</span>
         </Link>
