@@ -11,20 +11,26 @@ import pic from '../images/pic.jpeg'
 
 type getIcon = (idx: number) => any
 
-const Shop: FC<{ shop: Shop }> = ({ shop }) => {
+const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchParent }) => {
   const session = useSession()
 
-  const favShop = trpc.favorite.getById.useQuery({
+  const {
+    data: favShop,
+    status,
+    refetch,
+  } = trpc.favorite.getById.useQuery({
     userId: session.data?.user?.id,
     shopId: shop.id,
   })
 
   const [favorite, setFavorite] = useState(false)
+
   useEffect(() => {
-    if (favShop.status === 'success') {
-      setFavorite(favShop.data?.length !== 0 ? true : false)
+    if (status === 'success') {
+      setFavorite(favShop.length !== 0 ? true : false)
     }
-  }, [favShop.data])
+    refetchParent()
+  }, [favShop])
 
   const getIcon: getIcon = (idx) => {
     if (shop.rating && idx <= shop.rating) {
@@ -64,9 +70,13 @@ const Shop: FC<{ shop: Shop }> = ({ shop }) => {
   async function handleFavShop() {
     setFavorite(!favorite)
     if (!favorite) {
-      handleCreation({ userId: session.data?.user?.id, shopId: shop.id })
+      handleCreation({ userId: session.data?.user?.id, shopId: shop.id }).then(
+        async () => await refetch()
+      )
     } else {
-      handleDeletion({ userId: session.data?.user?.id, shopId: shop.id })
+      handleDeletion({ userId: session.data?.user?.id, shopId: shop.id }).then(
+        async () => await refetch()
+      )
     }
   }
 

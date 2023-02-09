@@ -31,8 +31,10 @@ const Home: NextPage = () => {
   const [title, setTitle] = useState<string>('All Places')
   const [display, setDisplay] = useState('all')
 
-  const initialShops = trpc.shops.getAll.useQuery().data
-  const savedPlaces = trpc.favorite.getAllShopPerUser.useQuery(session?.user?.id ?? '').data
+  const { data: initialShops } = trpc.shops.getAll.useQuery()
+  const { data: savedPlaces, refetch } = trpc.favorite.getAllShopPerUser.useQuery(
+    session?.user?.id ?? ''
+  )
 
   return (
     <div className="p-12 px-24">
@@ -111,13 +113,13 @@ const Home: NextPage = () => {
           {display === 'all' &&
             initialShops?.map((shop, idx) => (
               <div>
-                <ShopComp key={idx} shop={shop} />
+                <ShopComp key={idx} shop={shop} refetchParent={refetch} />
               </div>
             ))}
           {display === 'saved' &&
             savedPlaces?.map((shop, idx) => (
               <div>
-                <ShopComp key={idx} shop={shop} />
+                <ShopComp key={idx} shop={shop} refetchParent={refetch} />
               </div>
             ))}
           {display === 'coffee shops' &&
@@ -125,7 +127,7 @@ const Home: NextPage = () => {
               ?.filter((shop) => shop.type === 'coffee shop')
               .map((shop, idx) => (
                 <div>
-                  <ShopComp key={idx} shop={shop} />
+                  <ShopComp key={idx} shop={shop} refetchParent={refetch} />
                 </div>
               ))}
           {display === 'restaurants' &&
@@ -133,7 +135,7 @@ const Home: NextPage = () => {
               ?.filter((shop) => shop.type === 'restaurant')
               ?.map((shop, idx) => (
                 <div>
-                  <ShopComp key={idx} shop={shop} />
+                  <ShopComp key={idx} shop={shop} refetchParent={refetch} />
                 </div>
               ))}
           {display === 'bars' &&
@@ -141,7 +143,7 @@ const Home: NextPage = () => {
               ?.filter((shop) => shop.type === 'bar')
               ?.map((shop, idx) => (
                 <div>
-                  <ShopComp key={idx} shop={shop} />
+                  <ShopComp key={idx} shop={shop} refetchParent={refetch} />
                 </div>
               ))}
         </div>
