@@ -26,7 +26,17 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
     { enabled: !!session }
   )
 
-  const [favorite, setFavorite] = useState<boolean>(isSuccess && !!favShop)
+  const [favorite, setFavorite] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log(favShop)
+    if (favShop?.length === 0 || favShop === undefined) {
+      setFavorite(false)
+    } else {
+      setFavorite(true)
+    }
+    refetchParent()
+  }, [favShop])
 
   const createMutation = trpc.favorite.createFavorite.useMutation()
 

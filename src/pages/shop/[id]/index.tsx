@@ -57,15 +57,14 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
   }
 
   const PriceRange = () => {
-    switch (shop?.price) {
-      case 1:
-        return '$'
-      case 2:
-        return '$$'
-      case 3:
-        return '$$$'
-      default:
-        return 'Invalid Price'
+    if (shop?.price && shop.price >= 3) {
+      return '$$$'
+    } else if (shop?.price && shop.price >= 2 && shop.price < 3) {
+      return '$$'
+    } else if (shop?.price && shop.price >= 1 && shop.price < 2) {
+      return '$'
+    } else {
+      return 'Invalid Price'
     }
   }
 
@@ -111,7 +110,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
             <div className="mr-6 h-24 w-1 border-r-4 border-black"></div>
             <div>
               <div className="pb-3 text-2xl font-medium">Price Range:</div>
-              <div>{PriceRange()}</div>
+              <div className="text-3xl">{PriceRange()}</div>
             </div>
           </div>
           <button

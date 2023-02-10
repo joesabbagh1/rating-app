@@ -153,13 +153,13 @@ const AddForm = () => {
               </div>
               <div className="gap- flex flex-col justify-between">
                 <div className="text-2xl font-medium">Additinal Info</div>
-                <input
+                <textarea
                   {...register('additionalInfo', { required: true })}
-                  className="input-bordered input mt-4 h-full w-full"
+                  className="input-bordered input mt-4 h-full w-full resize-none"
                 />
               </div>
             </div>
-            <div className="flex justify-between">
+          <div className="flex justify-between">
               <button
                 className="btn-primary btn mt-12 h-2 w-24 hover:bg-white hover:text-black"
                 onClick={() => setStep(1)}
