@@ -56,16 +56,14 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
     return <div>{stars}</div>
   }
 
-  const PriceRange = () => {
-    if (shop?.price && shop.price >= 3) {
-      return '$$$'
-    } else if (shop?.price && shop.price >= 2 && shop.price < 3) {
-      return '$$'
-    } else if (shop?.price && shop.price >= 1 && shop.price < 2) {
-      return '$'
-    } else {
-      return 'Invalid Price'
+  const getPrice = () => {
+    let price = ''
+    if (shop?.price) {
+      for (let i = 0; i < shop.price; i++) {
+        price += '$'
+      }
     }
+    return price
   }
 
   const scrollToReviews = () => {
@@ -110,7 +108,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
             <div className="mr-6 h-24 w-1 border-r-4 border-black"></div>
             <div>
               <div className="pb-3 text-2xl font-medium">Price Range:</div>
-              <div className="text-3xl">{PriceRange()}</div>
+              <div className="text-3xl">{getPrice()}</div>
             </div>
           </div>
           <button
