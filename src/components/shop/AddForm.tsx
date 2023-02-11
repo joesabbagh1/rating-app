@@ -17,7 +17,6 @@ const AddForm = () => {
     description: yup.string().required('Required'),
     city: yup.string().required('Required'),
     street: yup.string(),
-    additinalInfo: yup.string(),
   })
 
   type types = 'coffee shop' | 'restaurant' | 'bar'
@@ -31,7 +30,7 @@ const AddForm = () => {
     resolver: yupResolver(validationSchema),
   })
 
-  const session = useSession()
+  console.log(errors)
 
   const [type, setType] = useState<types>()
   const [hover, setHover] = useState<types | null>()
@@ -59,7 +58,7 @@ const AddForm = () => {
 
   return (
     <div className="p-12 px-24">
-      <div className="text-6xl font-extrabold">What kind of place it is?</div>
+      <div className="text-6xl font-extrabold text-black">What kind of place it is?</div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mt-16 flex gap-10">
           <div
@@ -134,66 +133,39 @@ const AddForm = () => {
         </div>
         {step === 1 && (
           <div>
-            <div className="mt-20 grid grid-cols-2 gap-20">
-              <div className="flex flex-col justify-between gap-12">
-                <div className="pr-40">
-                  <div className="text-2xl font-medium">Title</div>
-                  <input
-                    {...register('title', { required: true })}
-                    className="input-bordered input mt-4 h-10 w-full"
-                  />
-                </div>
-                <div className="pr-40">
-                  <div className="text-2xl font-medium">Description</div>
-                  <input
-                    {...register('description', { required: true })}
-                    className="input-bordered input mt-4 h-10 w-full"
-                  />
-                </div>
-              </div>
-            </div>
-            <button
-              className="btn-primary btn mt-12 w-24 hover:bg-white hover:text-black"
-              onClick={() => setStep(2)}
-            >
-              Next
-            </button>
-          </div>
-        )}
-        {step === 2 && (
-          <div>
-            <div className="mt-20 grid grid-cols-2 gap-20">
-              <div className="flex flex-col justify-between gap-12">
-                <div className="pr-40">
-                  <div className="text-2xl font-medium">City</div>
-                  <input
-                    {...register('city', { required: true })}
-                    className="input-bordered input mt-4 h-10 w-full"
-                  />
-                </div>
-                <div className="pr-40">
-                  <div className="text-2xl font-medium">Street</div>
-                  <input
-                    {...register('street', { required: true })}
-                    className="input-bordered input mt-4 h-10 w-full"
-                  />
-                </div>
-              </div>
-              <div className="gap- flex flex-col justify-between">
-                <div className="text-2xl font-medium">Additinal Info</div>
-                <textarea
-                  {...register('additionalInfo', { required: true })}
-                  className="input-bordered input mt-4 h-full w-full resize-none"
+            <div className="mt-20 grid grid-cols-2 gap-x-40 gap-y-12">
+              <div>
+                <div className="text-2xl font-medium">Title</div>
+                <input
+                  {...register('title', { required: true })}
+                  className="input-bordered input mt-4 h-10 w-full"
                 />
+                {errors.title && <p className="text-m mt-2 text-red-600">{errors.title.message}</p>}
+              </div>
+              <div>
+                <div className="text-2xl font-medium">Description</div>
+                <input
+                  {...register('description', { required: true })}
+                  className="input-bordered input mt-4 h-10 w-full"
+                />
+                {errors.description && (
+                  <p className="text-m mt-2 text-red-600">{errors.description.message}</p>
+                )}
+              </div>
+              <div>
+                <div className="text-2xl font-medium">City</div>
+                <input
+                  {...register('city', { required: true })}
+                  className="input-bordered input mt-4 h-10 w-full"
+                />
+                {errors.city && <p className="text-m mt-2 text-red-600">{errors.city.message}</p>}
+              </div>
+              <div>
+                <div className="text-2xl font-medium">Street</div>
+                <input {...register('street')} className="input-bordered input mt-4 h-10 w-full" />
               </div>
             </div>
-            <div className="flex justify-between">
-              <button
-                className="btn-primary btn mt-12 h-2 w-24 hover:bg-white hover:text-black"
-                onClick={() => setStep(1)}
-              >
-                Back
-              </button>
+            <div className="flex justify-end">
               <button
                 className="btn-primary btn mt-12 h-2 w-24 hover:bg-white hover:text-black"
                 type="submit"

@@ -55,17 +55,16 @@ model User {
 }
 
 model Shop {
-  id             String     @id @default(cuid())
-  type           String
-  title          String
-  description    String
-  city           String
-  street         String?
-  additionalInfo String?
-  rating         Float?
-  price          Float?
-  Review         Review[]
-  UserFavorite   Favorite[]
+  id           String     @id @default(cuid())
+  type         String
+  title        String
+  description  String
+  city         String
+  street       String?
+  rating       Float?
+  price        Float?
+  Review       Review[]
+  UserFavorite Favorite[]
 }
 
 model Favorite {
