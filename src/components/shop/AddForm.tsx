@@ -34,6 +34,7 @@ const AddForm = () => {
   const session = useSession()
 
   const [type, setType] = useState<types>()
+  const [hover, setHover] = useState<types | null>()
   const [step, setStep] = useState<number>()
 
   useEffect(() => {
@@ -63,44 +64,71 @@ const AddForm = () => {
         <div className="mt-16 flex gap-10">
           <div
             className={clsx(
-              'cursor-pointer rounded-full border-2 border-gray-400 px-4 hover:border-black',
+              'cursor-pointer rounded-full border border-black px-4 transition duration-200 ease-out',
               {
-                'border-black': type === 'coffee shop',
+                'bg-black text-white': hover === 'coffee shop' || type === 'coffee shop',
               }
             )}
             onClick={() => {
               setStep(1), setType('coffee shop')
             }}
+            onMouseEnter={() => setHover('coffee shop')}
+            onMouseLeave={() => setHover(null)}
           >
-            <FontAwesomeIcon icon={faMugHot} />
+            <FontAwesomeIcon
+              color="black"
+              className={clsx('', {
+                'text-black': hover !== 'coffee shop' || type !== 'coffee shop',
+                'text-white': hover === 'coffee shop' || type === 'coffee shop',
+              })}
+              icon={faMugHot}
+            />
             <span className="ml-3 text-lg font-light">coffeee shop</span>
           </div>
           <div
             className={clsx(
-              'cursor-pointer rounded-full border-2 border-gray-400 px-4 hover:border-black',
+              'cursor-pointer rounded-full border border-black px-4 transition duration-200 ease-out',
               {
-                'border-black': type === 'restaurant',
+                'bg-black text-white': hover === 'restaurant' || type === 'restaurant',
               }
             )}
             onClick={() => {
               setStep(1), setType('restaurant')
             }}
+            onMouseEnter={() => setHover('restaurant')}
+            onMouseLeave={() => setHover(null)}
           >
-            <FontAwesomeIcon icon={faUtensils} />
+            <FontAwesomeIcon
+              color="gray"
+              className={clsx('', {
+                'text-black': hover !== 'restaurant' || type !== 'restaurant',
+                'text-white': hover === 'restaurant' || type === 'restaurant',
+              })}
+              icon={faUtensils}
+            />
             <span className="ml-3 text-lg font-light">restaurant</span>
           </div>
           <div
             className={clsx(
-              'cursor-pointer rounded-full border-2 border-gray-400 px-4 hover:border-black',
+              'cursor-pointer rounded-full border border-black px-4 transition duration-200 ease-out',
               {
-                'border-black': type === 'bar',
+                'bg-black text-white': hover === 'bar' || type === 'bar',
               }
             )}
             onClick={() => {
               setStep(1), setType('bar')
             }}
+            onMouseEnter={() => setHover('bar')}
+            onMouseLeave={() => setHover(null)}
           >
-            <FontAwesomeIcon icon={faMartiniGlass} />
+            <FontAwesomeIcon
+              color="gray"
+              className={clsx('', {
+                'text-black': hover !== 'bar' || type !== 'bar',
+                'text-white': hover === 'bar' || type === 'bar',
+              })}
+              icon={faMartiniGlass}
+            />
             <span className="ml-3 text-lg font-light">bar</span>
           </div>
         </div>
@@ -159,7 +187,7 @@ const AddForm = () => {
                 />
               </div>
             </div>
-          <div className="flex justify-between">
+            <div className="flex justify-between">
               <button
                 className="btn-primary btn mt-12 h-2 w-24 hover:bg-white hover:text-black"
                 onClick={() => setStep(1)}
