@@ -140,7 +140,7 @@ const AddForm = () => {
                   {...register('title', { required: true })}
                   className="input-bordered input mt-4 h-10 w-full"
                 />
-                {errors.title && <p className="text-m mt-2 text-red-600">{errors.title.message}</p>}
+                {errors.title && <p className="mt-2 text-red-600">{errors.title.message}</p>}
               </div>
               <div>
                 <div className="text-2xl font-medium">Description</div>
@@ -149,7 +149,7 @@ const AddForm = () => {
                   className="input-bordered input mt-4 h-10 w-full"
                 />
                 {errors.description && (
-                  <p className="text-m mt-2 text-red-600">{errors.description.message}</p>
+                  <p className="mt-2 text-red-600">{errors.description.message}</p>
                 )}
               </div>
               <div>

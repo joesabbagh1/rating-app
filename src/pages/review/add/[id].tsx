@@ -23,12 +23,12 @@ const AddReview = (shop: Shop) => {
     title: yup.string().required('Required'),
     description: yup.string().required('Required'),
     price: yup.number().required('Required'),
-    rating: yup.number().required('Required'),
+    rating: yup.number().nullable().required('Required'),
   })
 
   const { data: session } = useSession()
 
-  const [rating, setRating] = useState<number>(0)
+  const [rating, setRating] = useState<number | null>(null)
   const [price, setPrice] = useState<number>(0)
 
   const {
@@ -51,9 +51,10 @@ const AddReview = (shop: Shop) => {
   }
 
   useEffect(() => {
-    console.log(price)
     setValue('price', price)
-    setValue('rating', rating)
+    if (rating) {
+      setValue('rating', rating)
+    }
   }, [price, rating])
   const mutation = trpc.reviews.createReview.useMutation()
 
@@ -93,6 +94,7 @@ const AddReview = (shop: Shop) => {
                   {...register('title', { required: true })}
                   className="input-bordered input mt-2 h-10 w-full"
                 />
+                {errors.title && <p className="mt-2 text-red-600">{errors.title.message}</p>}
               </div>
               <div>
                 <div className="text-xl font-medium">Your review</div>
@@ -100,6 +102,7 @@ const AddReview = (shop: Shop) => {
                   {...register('description', { required: true })}
                   className="input-bordered input mt-2 h-28 w-full resize-none"
                 />
+                {errors.description && <p className="text-red-600">{errors.description.message}</p>}
               </div>
               <div className="flex justify-center gap-20">
                 <div className="w-1/2">
@@ -114,6 +117,7 @@ const AddReview = (shop: Shop) => {
                       onChange={(e) => {
                         handlePrice(e.target.value)
                       }}
+                      onLoad={() => setPrice(2)}
                     />
                   </div>
                   <div className="relative flex w-full justify-center text-xs">
@@ -126,7 +130,7 @@ const AddReview = (shop: Shop) => {
                   <div className="mb-3 text-center text-xl font-medium">Rating</div>
                   <div className="text-center text-3xl">
                     <Rate
-                      rating={rating}
+                      rating={rating ?? 0}
                       onRating={(rate: number) => setRating(rate)}
                       count={5}
                       color={{
@@ -135,6 +139,9 @@ const AddReview = (shop: Shop) => {
                       }}
                     />
                   </div>
+                  {errors.rating && !rating && (
+                    <p className="text-m mt-2 text-center text-red-600">{errors.rating.message}</p>
+                  )}
                 </div>
               </div>
             </div>
