@@ -15,7 +15,7 @@ import Image from 'next/image'
 import { appRouter } from '../../../server/trpc/router/_app'
 import { createContext } from '../../../server/trpc/context'
 import ShopLocation from '../../../components/reviews/ShopLocation'
-import Rate from '../../../components/Rate'
+import Rate from '../../../components/shop/Rate'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 const AddReview = (shop: Shop) => {

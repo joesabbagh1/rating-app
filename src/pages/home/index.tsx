@@ -1,12 +1,8 @@
 import { type NextPage } from 'next'
 import React, { useEffect, useRef, useState } from 'react'
-import Header from '../../components/Header'
 import ShopComp from '../../components/shop/Shop'
 import { trpc } from '../../utils/trpc'
-import { Shop } from '@prisma/client'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
-import Link from 'next/link'
 import {
   faMartiniGlass,
   faMugHot,
@@ -111,7 +107,7 @@ const Home: NextPage = () => {
 
         <h1 className="pb-8 text-3xl">{title}</h1>
 
-        <div className="grid grid-cols-2 gap-5 gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 gap-x-16 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {display === 'all' &&
             initialShops?.map((shop, idx) => (
               <div>

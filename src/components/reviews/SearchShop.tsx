@@ -1,12 +1,7 @@
-import { Review, Shop } from '@prisma/client'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FC, useEffect, useRef, useState } from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { Shop } from '@prisma/client'
+import { useEffect, useRef, useState } from 'react'
 import { trpc } from '../../utils/trpc'
-import * as yup from 'yup'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import pic from '../images/pic.jpeg'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -17,11 +12,13 @@ const AddReview = () => {
   const [showRes, setShowRes] = useState<boolean>(false)
 
   const ref = useRef<HTMLDivElement>(null)
+
   const handleClickOutside = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
       setShowRes(false)
     }
   }
+
   useEffect(() => {
     document.addEventListener('click', handleClickOutside)
     return () => {
@@ -45,9 +42,11 @@ const AddReview = () => {
   }, [query])
 
   const router = useRouter()
+
   function redirectShop(shopId: string) {
     router.push(`/review/add/${shopId}`)
   }
+
   useEffect(() => {
     if (query) {
       setShowRes(true)

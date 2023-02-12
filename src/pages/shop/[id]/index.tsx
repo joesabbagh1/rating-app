@@ -1,16 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useMemo, FC, useRef, useState, SyntheticEvent, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import pic from '../../../components/images/pic.jpeg'
-import Link from 'next/link'
 import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { trpc } from '../../../utils/trpc'
 import { NextPage } from 'next'
 import ReviewDisplay from '../../../components/reviews/ReviewDisplay'
-import ShopLocation from '../../../components/reviews/ShopLocation'
 import {
-  faChevronCircleDown,
   faChevronDown,
   faChevronUp,
   faLocationDot,
@@ -95,7 +92,9 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
       <div className="grid grid-cols-2 gap-24">
         <div className="flex flex-col justify-between">
           <div className="text-3xl">
-            According to {reviewsCount} reviewer{reviewsCount === 1 ? '' : 's'}:
+            {reviewsCount
+              ? `According to ${reviewsCount} reviewer${reviewsCount === 1 ? '' : 's'}:`
+              : 'No reviews yet'}
           </div>
           <div className="flex items-center">
             <div className="mr-6 h-24 w-1 border-r-4 border-black"></div>
@@ -133,7 +132,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
           </div>
         </div>
       </div>
-      <div className="mt-20 mb-24 flex flex-col items-center justify-center">
+      <div className="my-16 flex flex-col items-center justify-center">
         <button
           className="btn-primary btn rounded-3xl hover:bg-white hover:text-black"
           onClick={() => scrollToReviews()}
@@ -150,7 +149,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
           })}
         />
       </div>
-      <div ref={ref} className="pt-20">
+      <div ref={ref} className="pt-8">
         <div className="text-4xl font-bold">Reviews</div>
         {reviews?.map((review) => (
           <ReviewDisplay review={review} />

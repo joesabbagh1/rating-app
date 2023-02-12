@@ -1,39 +1,129 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { faPenToSquare, faHeart, faSquarePlus } from '@fortawesome/free-regular-svg-icons'
-import { faAdd, faPen } from '@fortawesome/free-solid-svg-icons'
-import { useRef, useState, RefObject, useEffect } from 'react'
+import { faPenToSquare, faSquarePlus } from '@fortawesome/free-regular-svg-icons'
+import pic from './images/pic.jpeg'
+import { useRef, useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { trpc } from '../utils/trpc'
+import { Shop } from '@prisma/client'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import clsx from 'clsx'
 
 const Header = () => {
   const { data: session } = useSession()
+  const [query, setQuery] = useState<string>('')
   const [open, setOpen] = useState(false)
+  const [suggestions, setSuggestions] = useState<Shop[] | null>()
+  const [showRes, setShowRes] = useState<boolean>(false)
+
   const ref = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setOpen(false)
-      }
+  const handleClickOutside = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      setShowRes(false)
     }
+  }
 
+  useEffect(() => {
     document.addEventListener('click', handleClickOutside)
     return () => {
       document.removeEventListener('click', handleClickOutside)
     }
-  }, [ref])
+  }, [])
+
+  const { refetch, isFetchedAfterMount } = trpc.shops.getByName.useQuery(query, {
+    enabled: false,
+  })
+
+  useEffect(() => {
+    if (!query) {
+      setSuggestions(null)
+    }
+    const getData = setTimeout(async () => {
+      if (query) {
+        const { data } = await refetch()
+        setSuggestions(data)
+      }
+    }, 500)
+    return () => clearTimeout(getData)
+  }, [query])
+
+  const router = useRouter()
+
+  function redirectShop(shopId: string) {
+    router.push(`/review/add/${shopId}`)
+  }
+
+  useEffect(() => {
+    if (query) {
+      setShowRes(true)
+    } else {
+      setShowRes(false)
+    }
+  }, [query])
 
   return (
     <nav className="flex items-center justify-between p-6 px-24">
       <div className="flex items-start">
-        <Link href="/home" className="text-4xl font-bold capitalize">
+        <Link href="/home" className="mr-6 text-4xl font-bold capitalize">
           Rated
         </Link>
-        <input
-          type="text"
-          placeholder="Search here"
-          className="mx-4 h-10 w-80 max-w-md rounded-3xl border p-3 px-4 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-        />
+        <div className="flex flex-col gap-5">
+          <input
+            type="text"
+            placeholder="Search place"
+            className="h-10 w-80 rounded-3xl border border-gray-300 p-3 px-4 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onClick={() => {
+              setShowRes(true)
+            }}
+          />
+          <div className="relative">
+            {showRes &&
+              (!!suggestions?.length ? (
+                <div className="absolute z-50 w-full rounded-3xl border-2 border-black bg-white">
+                  {suggestions?.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      className={clsx(
+                        'cursor-pointer px-6 py-3 transition duration-200 ease-in-out hover:bg-gray-600 hover:bg-opacity-10',
+                        {
+                          'border border-transparent border-t-black': index != 0,
+                          'rounded-t-3xl': index === 0,
+                          'rounded-b-3xl': index === suggestions.length - 1,
+                        }
+                      )}
+                      onClick={() => {
+                        setShowRes(false), setQuery(suggestion.title), redirectShop(suggestion.id)
+                      }}
+                    >
+                      <div className="flex items-center gap-1" key={suggestion.id}>
+                        <Image
+                          src={pic}
+                          alt=""
+                          className="z-50 h-14 w-14 rounded-lg object-cover object-center"
+                        />
+                        <div>
+                          <div className="text-sm font-bold">{suggestion.title}</div>
+                          <div className="text-sm font-light">
+                            {suggestion.city}, {suggestion.street}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                isFetchedAfterMount && (
+                  <div className="absolute z-50 w-full rounded-3xl border-2 border-black bg-white p-4 font-semibold">
+                    No results found
+                  </div>
+                )
+              ))}
+          </div>
+        </div>
       </div>
       <div className="flex items-center gap-10">
         <Link href="/review/add">

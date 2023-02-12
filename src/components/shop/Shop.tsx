@@ -90,7 +90,7 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
   return (
     <div className="relative">
       <button
-        className="absolute left-auto right-3 top-3 z-50 scale-110 cursor-pointer"
+        className="absolute left-auto right-3 top-3 z-30 scale-110 cursor-pointer"
         onClick={() => handleFavShop()}
       >
         <FontAwesomeIcon
