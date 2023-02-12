@@ -64,7 +64,7 @@ const Header = () => {
   }, [query])
 
   return (
-    <nav className="flex items-center justify-between p-6 px-24">
+    <nav className="flex items-start justify-between p-6 px-24">
       <div className="flex items-start">
         <Link href="/home" className="mr-6 text-4xl font-bold capitalize">
           Rated
@@ -127,12 +127,16 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-10">
         <Link href="/review/add">
-          <FontAwesomeIcon size="xl" icon={faPenToSquare} />
-          <span className="ml-2 text-xl font-semibold">Review</span>
+          <div className="flex items-center">
+            <FontAwesomeIcon size="xl" icon={faPenToSquare} />
+            <span className="ml-2 text-2xl font-semibold">Review</span>
+          </div>
         </Link>
         <Link href="/shop/add">
-          <FontAwesomeIcon size="xl" icon={faSquarePlus} />
-          <span className="ml-2 text-xl font-semibold">Place</span>
+          <div className="flex items-center">
+            <FontAwesomeIcon size="xl" icon={faSquarePlus} />
+            <span className="ml-2 text-2xl font-semibold">Place</span>
+          </div>
         </Link>
 
         {session ? (
