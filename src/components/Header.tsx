@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { trpc } from '../utils/trpc'
 import { Shop } from '@prisma/client'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import clsx from 'clsx'
 
 const Header = () => {
@@ -32,22 +32,9 @@ const Header = () => {
     }
   }, [])
 
-  const { refetch, isFetchedAfterMount } = trpc.shops.getByName.useQuery(query, {
+  const { isFetchedAfterMount } = trpc.shops.getByName.useQuery(query, {
     enabled: false,
   })
-
-  useEffect(() => {
-    if (!query) {
-      setSuggestions(null)
-    }
-    const getData = setTimeout(async () => {
-      if (query) {
-        const { data } = await refetch()
-        setSuggestions(data)
-      }
-    }, 500)
-    return () => clearTimeout(getData)
-  }, [query])
 
   const router = useRouter()
 
@@ -150,7 +137,7 @@ const Header = () => {
             {session?.user?.name}
           </div>
         ) : (
-          <button onClick={() => signIn()}>
+          <button onClick={() => router.push('/auth/signin')}>
             <span className="text-xl font-semibold">Sign in</span>
           </button>
         )}
