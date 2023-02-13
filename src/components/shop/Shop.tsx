@@ -8,11 +8,13 @@ import Link from 'next/link'
 import { trpc } from '../../utils/trpc'
 import { useSession } from 'next-auth/react'
 import pic from '../images/pic.jpeg'
+import { useRouter } from 'next/router'
 
 type getIcon = (idx: number) => any
 
 const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchParent }) => {
   const { data: session } = useSession()
+  const router = useRouter()
 
   const {
     data: favShop,
@@ -91,7 +93,9 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
     <div className="relative">
       <button
         className="absolute left-auto right-3 top-3 z-30 scale-110 cursor-pointer"
-        onClick={() => handleFavShop()}
+        onClick={() => {
+          session ? handleFavShop() : router.push('/auth/signin')
+        }}
       >
         <FontAwesomeIcon
           className="rounded-full bg-white p-2"

@@ -30,7 +30,7 @@ const SignInPage: NextPage = () => {
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center">
-      <div className="flex w-1/2 flex-col rounded-3xl border border-black p-10">
+      <div className="flex w-2/6 flex-col rounded-3xl border border-black p-10">
         <div className="text-4xl font-bold">Login:</div>
         <div className="mt-6 mb-4 text-xl font-light">Sign in with:</div>
         <div className="grid grid-cols-2 gap-4">
