@@ -63,6 +63,7 @@ model Shop {
   street       String?
   rating       Float?
   price        Float?
+  imageURL     String?
   Review       Review[]
   UserFavorite Favorite[]
 }

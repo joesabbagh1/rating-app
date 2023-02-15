@@ -1,6 +1,6 @@
 import { Shop } from '@prisma/client'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { trpc } from '../../utils/trpc'
 import * as yup from 'yup'
@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMartiniGlass, faMugHot, faUtensils } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
+import Image from 'next/image'
 
 const AddForm = () => {
   const validationSchema = yup.object().shape({
@@ -16,6 +17,7 @@ const AddForm = () => {
     description: yup.string().required('Required'),
     city: yup.string().required('Required'),
     street: yup.string(),
+    picture: yup.mixed(),
   })
 
   type types = 'coffee shop' | 'restaurant' | 'bar'
@@ -45,14 +47,38 @@ const AddForm = () => {
 
   async function handleCreation(data: any) {
     await mutation.mutateAsync(data)
-    router.push('/home', undefined, { shallow: false })
   }
 
   const router = useRouter()
 
+  async function uploadToS3(selectedFile: File) {
+    // @ts-ignore
+    const fileType = encodeURIComponent(selectedFile.type)
+
+    const response = await fetch(`/api/media?fileType=${fileType}`)
+    const data = await response.json()
+
+    const { uploadUrl, getUrl } = data
+    await fetch(uploadUrl, {
+      method: 'PUT',
+      body: selectedFile,
+    })
+
+    return getUrl
+  }
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0]
+    setSelectedFile(file || null)
+  }
+
   const onSubmit: SubmitHandler<Shop> = async (data) => {
-    console.log(data)
-    handleCreation(data)
+    const getUrl = selectedFile ? await uploadToS3(selectedFile) : ''
+    console.log(getUrl)
+    handleCreation({ ...data, imageURL: getUrl })
+    router.push('/home', undefined, { shallow: false })
   }
 
   return (
@@ -163,14 +189,24 @@ const AddForm = () => {
                 <div className="text-2xl font-medium">Street</div>
                 <input {...register('street')} className="input-bordered input mt-4 h-10 w-full" />
               </div>
-            </div>
-            <div className="flex justify-end">
-              <button
-                className="btn-primary btn mt-12 h-2 w-24 hover:bg-white hover:text-black"
-                type="submit"
-              >
-                Submit
-              </button>
+              <div className="flex items-center justify-between">
+                <div className="text-2xl font-medium">Upload an image</div>
+                <input
+                  type="file"
+                  accept="image/jpeg image/png"
+                  name="file"
+                  className="file-input-primary file-input"
+                  onChange={handleFileInputChange}
+                />
+              </div>
+              <div className="place-self-end">
+                <button
+                  className="btn-primary btn h-2 w-24 hover:bg-white hover:text-black"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
         )}
