@@ -119,8 +119,16 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
             add a review
           </button>
         </div>
-        <div className="flex flex-col gap-1">
-          <Image height={500} src={pic} alt="" className="rounded-t-2xl" />
+        <div className="flex h-1/2 flex-col gap-1">
+          {shop?.imageURL && (
+            <Image
+              height={400}
+              width={600}
+              src={shop?.imageURL}
+              alt=""
+              // className="h-fit w-full rounded-t-2xl object-cover object-center"
+            />
+          )}
           <div className="flex items-center justify-between">
             <div className="text-lg font-light capitalize">{shop?.title}</div>
             <div>

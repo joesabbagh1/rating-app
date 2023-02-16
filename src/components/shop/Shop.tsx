@@ -65,6 +65,7 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
     }
   }
   const { data: reviewCount } = trpc.reviews.getReviewsCountPerShop.useQuery(shop.id)
+  console.log(shop.imageURL)
 
   const getIcon: getIcon = (idx) => {
     if (shop.rating && idx <= shop.rating) {
@@ -104,8 +105,16 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
         />
       </button>
       <Link href={{ pathname: `/shop/${shop.id}` }}>
-        <div className="cursor-pointer flex-col gap-3 transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
-          <Image src={pic} alt="" />
+        <div className="cursor-pointer transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
+          {shop.imageURL && (
+            <Image
+              src={shop.imageURL}
+              alt="My Image"
+              width={500}
+              height={200}
+              className="h-56 w-full object-cover object-center"
+            />
+          )}
           <div className="mt-3 text-lg font-semibold decoration-8">{shop.title}</div>
           {shop.rating && shop.price ? (
             <>
