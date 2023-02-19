@@ -31,8 +31,6 @@ const AddForm = () => {
     resolver: yupResolver(validationSchema),
   })
 
-  console.log(errors)
-
   const [type, setType] = useState<types>()
   const [hover, setHover] = useState<types | null>()
   const [step, setStep] = useState<number>()

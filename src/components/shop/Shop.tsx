@@ -31,7 +31,6 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
   const [favorite, setFavorite] = useState<boolean>(false)
 
   useEffect(() => {
-    console.log(favShop)
     if (favShop?.length === 0 || favShop === undefined) {
       setFavorite(false)
     } else {
@@ -65,7 +64,6 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
     }
   }
   const { data: reviewCount } = trpc.reviews.getReviewsCountPerShop.useQuery(shop.id)
-  console.log(shop.imageURL)
 
   const getIcon: getIcon = (idx) => {
     if (shop.rating && idx <= shop.rating) {

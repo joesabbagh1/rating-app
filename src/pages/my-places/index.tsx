@@ -6,7 +6,6 @@ const shopAdd: NextPage = () => {
   const { data: session } = useSession()
 
   const places = trpc.favorite.getAllShopPerUser.useQuery(session?.user?.id ?? '').data
-  console.log(places)
   return (
     <div>
       <div>

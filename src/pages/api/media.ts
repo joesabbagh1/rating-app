@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const s3Params = {
     Bucket: process.env.BUCKET_NAME,
     Key,
-    Expires: 60,
+    Expires: false,
     ContentType: `image/${ex}`,
   }
   const s3Params2 = {

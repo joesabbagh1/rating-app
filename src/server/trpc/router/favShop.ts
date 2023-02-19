@@ -4,8 +4,6 @@ import { router, publicProcedure } from '../trpc'
 
 export const favoriteRouter = router({
   getById: publicProcedure.input(z.any()).query(async ({ ctx, input }) => {
-    console.log(input)
-
     return await ctx.prisma.favorite.findMany({
       where: {
         userId: input.userId,
