@@ -56,13 +56,13 @@ const AddForm = () => {
     const response = await fetch(`/api/media?fileType=${fileType}`)
     const data = await response.json()
 
-    const { uploadUrl, getUrl } = data
+    const { uploadUrl, key } = data
     await fetch(uploadUrl, {
       method: 'PUT',
       body: selectedFile,
     })
 
-    return getUrl
+    return key
   }
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)

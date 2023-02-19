@@ -16,17 +16,17 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
   const { data: session } = useSession()
   const router = useRouter()
 
-  const {
-    data: favShop,
-    isSuccess,
-    refetch,
-  } = trpc.favorite.getById.useQuery(
+  const { data: favShop, refetch } = trpc.favorite.getById.useQuery(
     {
       userId: session?.user?.id,
       shopId: shop.id,
     },
     { enabled: !!session }
   )
+
+  const { data: shopImg } = trpc.shops.getShopImgae.useQuery(shop.imageURL ?? '', {
+    enabled: !!shop.imageURL,
+  })
 
   const [favorite, setFavorite] = useState<boolean>(false)
 
@@ -104,9 +104,9 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
       </button>
       <Link href={{ pathname: `/shop/${shop.id}` }}>
         <div className="cursor-pointer transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
-          {shop.imageURL && (
+          {shopImg && (
             <Image
-              src={shop.imageURL}
+              src={shopImg}
               alt="My Image"
               width={500}
               height={200}

@@ -22,19 +22,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     Expires: false,
     ContentType: `image/${ex}`,
   }
-  const s3Params2 = {
-    Bucket: process.env.BUCKET_NAME,
-    Key,
-  }
 
   const uploadUrl = await s3.getSignedUrl('putObject', s3Params)
-  const getUrl = await s3.getSignedUrl('getObject', s3Params2)
-
-  console.log('getUrldklafhkjasdfkladsjhfjksda', getUrl)
 
   res.status(200).json({
     uploadUrl,
-    getUrl,
     key: Key,
   })
 }

@@ -20,6 +20,10 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
   const reviews = trpc.reviews.getByShop.useQuery(shopId).data
   const reviewsCount = trpc.reviews.getReviewsCountPerShop.useQuery(shopId).data
 
+  const { data: shopImg } = trpc.shops.getShopImgae.useQuery(shop?.imageURL ?? '', {
+    enabled: !!shop && !!shop.imageURL,
+  })
+
   const ref = useRef<HTMLDivElement>(null)
   const [scrollY, setScrollY] = useState(0)
   const [hover, setHover] = useState(false)
@@ -119,16 +123,19 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
             add a review
           </button>
         </div>
-        <div className="flex h-1/2 flex-col gap-1">
-          {shop?.imageURL && (
-            <Image
-              height={400}
-              width={600}
-              src={shop?.imageURL}
-              alt=""
-              // className="h-fit w-full rounded-t-2xl object-cover object-center"
-            />
-          )}
+        <div className="flex flex-col gap-1">
+          <div className="p- w-full self-center" style={{ height: '55vh' }}>
+            {shopImg && (
+              <Image
+                width={450}
+                height={100}
+                src={shopImg}
+                alt=""
+                className=" w-full rounded-2xl object-cover object-center"
+                style={{ height: '55vh' }}
+              />
+            )}
+          </div>
           <div className="flex items-center justify-between">
             <div className="text-lg font-light capitalize">{shop?.title}</div>
             <div>
