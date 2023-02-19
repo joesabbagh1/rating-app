@@ -50,8 +50,6 @@ export const shopRouter = router({
 
     const getUrl = s3.getSignedUrl('getObject', s3Params)
 
-    console.log(123234234422432, getUrl)
-
     return getUrl
   }),
 })

@@ -25,7 +25,7 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
   )
 
   const { data: shopImg } = trpc.shops.getShopImgae.useQuery(shop.imageURL ?? '', {
-    enabled: !!shop.imageURL,
+    enabled: !!shop && !!shop.imageURL,
   })
 
   const [favorite, setFavorite] = useState<boolean>(false)
