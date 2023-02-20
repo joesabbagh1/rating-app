@@ -105,7 +105,7 @@ const AddForm = () => {
               })}
               icon={faMugHot}
             />
-            <span className="ml-3 text-lg font-light">coffeee shop</span>
+            <span className="ml-3 text-lg font-light">coffee shop</span>
           </div>
           <div
             className={clsx(

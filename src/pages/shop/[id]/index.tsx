@@ -84,8 +84,8 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
         className={clsx(
           'btn-primary btn fixed bottom-12 right-12 transform rounded-full transition-all duration-300 ease-in-out hover:bg-transparent hover:text-black',
           {
-            'visible opacity-100': scrollY > 300,
-            'invisible opacity-0': scrollY < 300,
+            'visible opacity-100': scrollY > 200,
+            'invisible opacity-0': scrollY < 200,
           }
         )}
         onClick={() => goTop()}
@@ -131,7 +131,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
                 height={100}
                 src={shopImg}
                 alt=""
-                className=" w-full rounded-2xl object-cover object-center"
+                className="w-full rounded-t-2xl object-cover object-center"
                 style={{ height: '55vh' }}
               />
             )}

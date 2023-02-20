@@ -7,6 +7,7 @@ import pic from '../images/pic.jpeg'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { trpc } from '../../utils/trpc'
+import { faUser } from '@fortawesome/free-regular-svg-icons'
 
 const ReviewDisplay: FC<{ review: Review }> = ({ review }) => {
   const user = trpc.users.getById.useQuery(review.userId).data
@@ -33,8 +34,9 @@ const ReviewDisplay: FC<{ review: Review }> = ({ review }) => {
     <div>
       <div className="divider text-black"></div>
       <div className="flex gap-10">
-        <div className="flex flex-col items-center justify-center gap-2">
-          <Image src={pic} alt="" className="h-24 w-24 rounded-full object-cover object-center" />
+        <div className="flex flex-col items-center justify-between gap-2">
+          {/* <Image src={pic} alt="" className="h-24 w-24 rounded-full object-cover object-center" /> */}
+          <FontAwesomeIcon icon={faUser} size="3x" />
           <div className="font-extralight capitalize italic">{user?.name}</div>
         </div>
         <div className="flex flex-col justify-between pt-1 pr-5">
