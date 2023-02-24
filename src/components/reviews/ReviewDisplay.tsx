@@ -1,11 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
-import React, { useMemo, FC, useState, useEffect } from 'react'
-import { Review, Shop } from '@prisma/client'
-import Image from 'next/image'
-import pic from '../images/pic.jpeg'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import React, { FC } from 'react'
+import { Review } from '@prisma/client'
 import { trpc } from '../../utils/trpc'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 

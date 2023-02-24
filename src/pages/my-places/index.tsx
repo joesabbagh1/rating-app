@@ -1,5 +1,5 @@
-import { GetServerSideProps, NextPage } from 'next'
-import { getSession, useSession } from 'next-auth/react'
+import { NextPage } from 'next'
+import { useSession } from 'next-auth/react'
 import { trpc } from '../../utils/trpc'
 
 const shopAdd: NextPage = () => {

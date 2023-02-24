@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import { getSession } from 'next-auth/react'
 import SearchReview from '../../../components/reviews/SearchShop'
 

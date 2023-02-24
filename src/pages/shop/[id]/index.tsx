@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
-import pic from '../../../components/images/pic.jpeg'
-import { getSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { trpc } from '../../../utils/trpc'
 import { NextPage } from 'next'
@@ -27,7 +25,11 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
   const ref = useRef<HTMLDivElement>(null)
   const [scrollY, setScrollY] = useState(0)
   const [hover, setHover] = useState(false)
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
 
+  const handleImageLoad = () => {
+    setIsImageLoaded(true)
+  }
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY)
@@ -131,9 +133,20 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
                 height={100}
                 src={shopImg}
                 alt=""
-                className="w-full rounded-t-2xl object-cover object-center"
+                className={clsx('rounded-2xl object-cover object-center', {
+                  'w-full': isImageLoaded,
+                  'hidden ': !isImageLoaded,
+                })}
                 style={{ height: '55vh' }}
+                onLoadingComplete={handleImageLoad}
+                priority={true}
               />
+            )}
+            {!isImageLoaded && (
+              <div
+                className="w-full animate-pulse rounded-2xl bg-gray-300"
+                style={{ height: '55vh' }}
+              ></div>
             )}
           </div>
           <div className="flex items-center justify-between">
@@ -175,19 +188,8 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
 }
 
 export const getServerSideProps = async (context: any) => {
-  const session = await getSession(context)
-
   const { id: shopId } = context.query
 
-  if (!session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `api/auth/signin`,
-      },
-    }
-  } else {
-    return { props: { shopId } }
-  }
+  return { props: { shopId } }
 }
 export default ShopPage

@@ -7,8 +7,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { trpc } from '../../utils/trpc'
 import { useSession } from 'next-auth/react'
-import pic from '../images/pic.jpeg'
 import { useRouter } from 'next/router'
+import clsx from 'clsx'
 
 type getIcon = (idx: number) => any
 
@@ -29,6 +29,11 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
   })
 
   const [favorite, setFavorite] = useState<boolean>(false)
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+
+  const handleImageLoad = () => {
+    setIsImageLoaded(true)
+  }
 
   useEffect(() => {
     if (favShop?.length === 0 || favShop === undefined) {
@@ -110,8 +115,16 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
               alt="My Image"
               width={500}
               height={200}
-              className="h-56 w-full object-cover object-center"
+              className={clsx('object-cover object-center', {
+                'h-56 w-full': isImageLoaded,
+                'hidden ': !isImageLoaded,
+              })}
+              onLoadingComplete={handleImageLoad}
+              priority={true}
             />
+          )}
+          {!isImageLoaded && (
+            <div className="h-56 w-full animate-pulse rounded-t-2xl bg-gray-300"></div>
           )}
           <div className="mt-3 text-lg font-semibold decoration-8">{shop.title}</div>
           {shop.rating && shop.price ? (

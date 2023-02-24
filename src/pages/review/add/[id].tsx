@@ -1,20 +1,17 @@
 import { Review, Shop } from '@prisma/client'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import * as yup from 'yup'
-import pic from '../../../components/images/pic.jpeg'
 import { useRouter } from 'next/router'
 import { getSession, useSession } from 'next-auth/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import { trpc } from '../../../utils/trpc'
-import { NextPage } from 'next'
 import { createProxySSGHelpers } from '@trpc/react-query/ssg'
 import Image from 'next/image'
 import { appRouter } from '../../../server/trpc/router/_app'
 import { createContext } from '../../../server/trpc/context'
-import ShopLocation from '../../../components/reviews/ShopLocation'
 import Rate from '../../../components/shop/Rate'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
@@ -28,8 +25,17 @@ const AddReview = (shop: Shop) => {
 
   const { data: session } = useSession()
 
+  const { data: shopImg } = trpc.shops.getShopImgae.useQuery(shop?.imageURL ?? '', {
+    enabled: !!shop && !!shop.imageURL,
+  })
+
   const [rating, setRating] = useState<number | null>(null)
   const [price, setPrice] = useState<number>(0)
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+
+  const handleImageLoad = () => {
+    setIsImageLoaded(true)
+  }
 
   const {
     register,
@@ -56,6 +62,7 @@ const AddReview = (shop: Shop) => {
       setValue('rating', rating)
     }
   }, [price, rating])
+
   const mutation = trpc.reviews.createReview.useMutation()
 
   async function handleCreation(data: any) {
@@ -75,7 +82,27 @@ const AddReview = (shop: Shop) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-24">
           <div className="flex flex-col gap-1">
-            <Image height={500} src={pic} alt="" className="rounded-t-2xl" />
+            {shopImg && (
+              <Image
+                width={450}
+                height={100}
+                src={shopImg}
+                alt=""
+                className={clsx('rounded-2xl object-cover object-center', {
+                  'w-full': isImageLoaded,
+                  'hidden ': !isImageLoaded,
+                })}
+                style={{ height: '55vh' }}
+                onLoadingComplete={handleImageLoad}
+                priority={true}
+              />
+            )}
+            {!isImageLoaded && (
+              <div
+                className="w-full animate-pulse rounded-2xl bg-gray-300"
+                style={{ height: '55vh' }}
+              ></div>
+            )}
             <div className="flex items-center justify-between">
               <div className="text-lg font-light capitalize">{shop?.title}</div>
               <div>

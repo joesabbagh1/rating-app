@@ -1,14 +1,19 @@
-// @ts-check
 /**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
- * This is especially useful for Docker builds.
+ * Don't be scared of the generics here.
+ * All they do is to give us autocompletion when using this.
+ *
+ * @template {import('next').NextConfig} T
+ * @param {T} config - A generic parameter that flows through to the return type
+ * @constraint {{import('next').NextConfig}}
  */
-!process.env.SKIP_ENV_VALIDATION && (await import('./src/env/server.mjs'))
+function defineNextConfig(config) {
+  return config
+}
 
-/** @type {import("next").NextConfig} */
-const config = {
+export default defineNextConfig({
   reactStrictMode: true,
   swcMinify: true,
+  output: 'standalone',
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
@@ -16,5 +21,4 @@ const config = {
   images: {
     domains: ['images-for-rating-website.s3.eu-west-1.amazonaws.com'],
   },
-}
-export default config
+})

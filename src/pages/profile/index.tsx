@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 
 const IndexPage: NextPage = () => null
 

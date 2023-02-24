@@ -1,20 +1,16 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { faPenToSquare, faSquarePlus } from '@fortawesome/free-regular-svg-icons'
-import pic from './images/pic.jpeg'
 import { useRef, useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { trpc } from '../utils/trpc'
-import { Shop } from '@prisma/client'
-import Image from 'next/image'
-import { Router, useRouter } from 'next/router'
-import clsx from 'clsx'
+import { useRouter } from 'next/router'
+import ShopSearched from './shop/ShopSearched'
 
 const Header = () => {
   const { data: session } = useSession()
   const [query, setQuery] = useState<string>('')
   const [open, setOpen] = useState(false)
-  const [suggestions, setSuggestions] = useState<Shop[] | null>()
   const [showRes, setShowRes] = useState<boolean>(false)
 
   const ref = useRef<HTMLDivElement>(null)
@@ -32,8 +28,8 @@ const Header = () => {
     }
   }, [])
 
-  const { isFetchedAfterMount } = trpc.shops.getByName.useQuery(query, {
-    enabled: false,
+  const { data: suggestions, isFetchedAfterMount } = trpc.shops.getByName.useQuery(query, {
+    enabled: !!query,
   })
 
   const router = useRouter()
@@ -69,37 +65,10 @@ const Header = () => {
           />
           <div className="relative">
             {showRes &&
-              (!!suggestions?.length ? (
+              (suggestions?.length ? (
                 <div className="absolute z-50 w-full rounded-3xl border-2 border-black bg-white">
                   {suggestions?.map((suggestion, index) => (
-                    <div
-                      key={index}
-                      className={clsx(
-                        'cursor-pointer px-6 py-3 transition duration-200 ease-in-out hover:bg-gray-600 hover:bg-opacity-10',
-                        {
-                          'border border-transparent border-t-black': index != 0,
-                          'rounded-t-3xl': index === 0,
-                          'rounded-b-3xl': index === suggestions.length - 1,
-                        }
-                      )}
-                      onClick={() => {
-                        setShowRes(false), setQuery(suggestion.title), redirectShop(suggestion.id)
-                      }}
-                    >
-                      <div className="flex items-center gap-1" key={suggestion.id}>
-                        <Image
-                          src={pic}
-                          alt=""
-                          className="z-50 h-14 w-14 rounded-lg object-cover object-center"
-                        />
-                        <div>
-                          <div className="text-sm font-bold">{suggestion.title}</div>
-                          <div className="text-sm font-light">
-                            {suggestion.city}, {suggestion.street}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <ShopSearched shop={suggestion} setShowRes={setShowRes} key={suggestion.id} />
                   ))}
                 </div>
               ) : (

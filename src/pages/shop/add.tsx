@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import { getSession } from 'next-auth/react'
 import AddForm from '../../components/shop/AddForm'
 

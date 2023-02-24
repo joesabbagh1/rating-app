@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMartiniGlass, faMugHot, faUtensils } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
-import Image from 'next/image'
 
 const AddForm = () => {
   const validationSchema = yup.object().shape({

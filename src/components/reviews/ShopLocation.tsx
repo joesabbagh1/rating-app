@@ -1,11 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faStar } from '@fortawesome/free-solid-svg-icons'
-import React, { useMemo, FC, useState, useEffect } from 'react'
-import { Shop } from '@prisma/client'
-import Image from 'next/image'
-import pic from '../images/pic.jpeg'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import React, { FC } from 'react'
 
 const ShopLocation: FC = () => {
   return (
