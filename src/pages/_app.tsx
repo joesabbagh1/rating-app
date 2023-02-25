@@ -13,8 +13,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const router = useRouter()
 
-  console.log(router.pathname)
-
   return (
     <SessionProvider session={session}>
       {router.pathname === '/auth/signin' || router.pathname === '/auth/singup' ? (
