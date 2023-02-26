@@ -117,17 +117,17 @@ const Shop: FC<{ shop: Shop; refetchParent?: () => void }> = ({ shop, refetchPar
               alt="My Image"
               width={500}
               height={200}
-              className={clsx('object-cover object-center', {
-                'h-56 w-full': isImageLoaded,
-                'hidden ': !isImageLoaded,
-              })}
-              onLoadingComplete={handleImageLoad}
-              priority={true}
+              className="h-56 w-full object-cover object-center"
+              // className={clsx('object-cover object-center', {
+              //   'h-56 w-full': isImageLoaded,
+              //   'hidden ': !isImageLoaded,
+              // })}
+              // onLoadingComplete={handleImageLoad}
             />
           )}
-          {!isImageLoaded && (
+          {/* {!isImageLoaded && (
             <div className="h-56 w-full animate-pulse rounded-t-2xl bg-gray-300"></div>
-          )}
+          )} */}
           <div className="mt-3 text-lg font-semibold decoration-8">{shop.title}</div>
           {shop.rating && shop.price ? (
             <>
