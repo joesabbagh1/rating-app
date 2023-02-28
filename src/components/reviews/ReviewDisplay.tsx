@@ -30,8 +30,7 @@ const ReviewDisplay: FC<{ review: Review }> = ({ review }) => {
     <div>
       <div className="divider text-black"></div>
       <div className="flex gap-10">
-        <div className="flex flex-col items-center justify-between gap-2">
-          {/* <Image src={pic} alt="" className="h-24 w-24 rounded-full object-cover object-center" /> */}
+        <div className="flex w-1/12 flex-col items-center justify-between gap-2">
           <FontAwesomeIcon icon={faUser} size="3x" />
           <div className="font-extralight capitalize italic">{user?.name}</div>
         </div>

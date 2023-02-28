@@ -109,7 +109,9 @@ const Home: NextPage = () => {
 
         <div className="grid grid-cols-2 gap-5 gap-x-16 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {display === 'all' &&
-            initialShops?.map((shop, idx) => <ShopComp key={idx} shop={shop} />)}
+            initialShops?.map((shop, idx) => (
+              <ShopComp key={idx} shop={shop} refetchParent={refetch} />
+            ))}
           {display === 'saved' &&
             savedPlaces?.map((shop, idx) => (
               <ShopComp key={idx} shop={shop} refetchParent={refetch} />
@@ -117,15 +119,15 @@ const Home: NextPage = () => {
           {display === 'coffee shops' &&
             initialShops
               ?.filter((shop) => shop.type === 'coffee shop')
-              .map((shop, idx) => <ShopComp key={idx} shop={shop} />)}
+              .map((shop, idx) => <ShopComp key={idx} shop={shop} refetchParent={refetch} />)}
           {display === 'restaurants' &&
             initialShops
               ?.filter((shop) => shop.type === 'restaurant')
-              ?.map((shop, idx) => <ShopComp key={idx} shop={shop} />)}
+              ?.map((shop, idx) => <ShopComp key={idx} shop={shop} refetchParent={refetch} />)}
           {display === 'bars' &&
             initialShops
               ?.filter((shop) => shop.type === 'bar')
-              ?.map((shop, idx) => <ShopComp key={idx} shop={shop} />)}
+              ?.map((shop, idx) => <ShopComp key={idx} shop={shop} refetchParent={refetch} />)}
         </div>
       </div>
     </div>

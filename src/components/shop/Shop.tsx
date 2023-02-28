@@ -12,7 +12,7 @@ import clsx from 'clsx'
 
 type getIcon = (idx: number) => any
 
-const Shop: FC<{ shop: Shop; refetchParent?: () => void }> = ({ shop, refetchParent }) => {
+const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchParent }) => {
   const { data: session } = useSession()
   const router = useRouter()
 
@@ -29,11 +29,11 @@ const Shop: FC<{ shop: Shop; refetchParent?: () => void }> = ({ shop, refetchPar
   })
 
   const [favorite, setFavorite] = useState<boolean>(false)
-  const [isImageLoaded, setIsImageLoaded] = useState(false)
+  // const [isImageLoaded, setIsImageLoaded] = useState(false)
 
-  const handleImageLoad = () => {
-    setIsImageLoaded(true)
-  }
+  // const handleImageLoad = () => {
+  //   setIsImageLoaded(true)
+  // }
 
   useEffect(() => {
     if (favShop?.length === 0 || favShop === undefined) {
@@ -41,9 +41,7 @@ const Shop: FC<{ shop: Shop; refetchParent?: () => void }> = ({ shop, refetchPar
     } else {
       setFavorite(true)
     }
-    if (refetchParent) {
-      refetchParent()
-    }
+    refetchParent()
   }, [favShop])
 
   const createMutation = trpc.favorite.createFavorite.useMutation()
