@@ -58,14 +58,14 @@ export const shopRouter = router({
     })
   }),
 
-  getShopImgae: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    const s3Params = {
-      Bucket: process.env.BUCKET_NAME,
-      Key: input,
-    }
+  // getShopImgae: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+  //   const s3Params = {
+  //     Bucket: process.env.BUCKET_NAME,
+  //     Key: input,
+  //   }
 
-    const getUrl = s3.getSignedUrl('getObject', s3Params)
+  //   const getUrl = s3.getSignedUrl('getObject', s3Params)
 
-    return getUrl
-  }),
+  //   return getUrl
+  // }),
 })

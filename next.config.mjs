@@ -19,6 +19,9 @@ export default defineNextConfig({
     defaultLocale: 'en',
   },
   images: {
-    domains: ['images-for-rating-website.s3.eu-west-1.amazonaws.com'],
+    domains: [
+      'images-for-rating-website.s3.eu-west-1.amazonaws.com',
+      'd28z5crq9rink6.cloudfront.net',
+    ],
   },
 })

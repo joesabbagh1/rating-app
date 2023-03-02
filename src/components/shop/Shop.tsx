@@ -24,10 +24,6 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
     { enabled: !!session }
   )
 
-  const { data: shopImg } = trpc.shops.getShopImgae.useQuery(shop.imageURL ?? '', {
-    enabled: !!shop && !!shop.imageURL,
-  })
-
   const [favorite, setFavorite] = useState<boolean>(false)
   // const [isImageLoaded, setIsImageLoaded] = useState(false)
 
@@ -109,9 +105,9 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
       </button>
       <Link href={{ pathname: `/shop/${shop.id}` }}>
         <div className="cursor-pointer transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
-          {shopImg && (
+          {shop.imageURL && (
             <Image
-              src={shopImg}
+              src={shop.imageURL}
               alt="My Image"
               width={500}
               height={200}

@@ -16,6 +16,12 @@ import clsx from 'clsx'
 const Home: NextPage = () => {
   const { data: session } = useSession()
 
+  const { data: initialShops } = trpc.shops.getAll.useQuery()
+  const { data: savedPlaces, refetch } = trpc.favorite.getAllShopPerUser.useQuery(
+    session?.user?.id ?? '',
+    { enabled: !!session }
+  )
+
   const ref = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(0)
 
@@ -27,12 +33,6 @@ const Home: NextPage = () => {
 
   const [title, setTitle] = useState<string>('All Places')
   const [display, setDisplay] = useState('all')
-
-  const { data: initialShops } = trpc.shops.getAll.useQuery()
-  const { data: savedPlaces, refetch } = trpc.favorite.getAllShopPerUser.useQuery(
-    session?.user?.id ?? '',
-    { enabled: !!session }
-  )
 
   return (
     <div className="p-12 px-24">

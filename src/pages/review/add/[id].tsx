@@ -25,10 +25,6 @@ const AddReview = (shop: Shop) => {
 
   const { data: session } = useSession()
 
-  const { data: shopImg } = trpc.shops.getShopImgae.useQuery(shop?.imageURL ?? '', {
-    enabled: !!shop && !!shop.imageURL,
-  })
-
   const [rating, setRating] = useState<number | null>(null)
   const [price, setPrice] = useState<number>(0)
   const [isImageLoaded, setIsImageLoaded] = useState(false)
@@ -82,11 +78,11 @@ const AddReview = (shop: Shop) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-24">
           <div className="flex flex-col gap-1">
-            {shopImg && (
+            {shop.imageURL && (
               <Image
                 width={450}
                 height={100}
-                src={shopImg}
+                src={shop.imageURL}
                 alt=""
                 className={clsx('rounded-2xl object-cover object-center', {
                   'w-full': isImageLoaded,

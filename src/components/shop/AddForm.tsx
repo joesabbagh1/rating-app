@@ -73,7 +73,7 @@ const AddForm = () => {
 
   const onSubmit: SubmitHandler<Shop> = async (data) => {
     const getUrl = selectedFile ? await uploadToS3(selectedFile) : ''
-    await handleCreation({ ...data, imageURL: getUrl })
+    await handleCreation({ ...data, imageURL: `https://d28z5crq9rink6.cloudfront.net/${getUrl}` })
     router.push('/home', undefined, { shallow: false })
   }
 

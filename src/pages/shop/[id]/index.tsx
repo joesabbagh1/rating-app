@@ -18,10 +18,6 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
   const reviews = trpc.reviews.getByShop.useQuery(shopId).data
   const reviewsCount = trpc.reviews.getReviewsCountPerShop.useQuery(shopId).data
 
-  const { data: shopImg } = trpc.shops.getShopImgae.useQuery(shop?.imageURL ?? '', {
-    enabled: !!shop && !!shop.imageURL,
-  })
-
   const ref = useRef<HTMLDivElement>(null)
   const [scrollY, setScrollY] = useState(0)
   const [hover, setHover] = useState(false)
@@ -127,11 +123,11 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
         </div>
         <div className="flex flex-col gap-1">
           <div className="p- w-full self-center" style={{ height: '55vh' }}>
-            {shopImg && (
+            {shop?.imageURL && (
               <Image
                 width={450}
                 height={100}
-                src={shopImg}
+                src={shop?.imageURL}
                 alt=""
                 className={clsx('rounded-2xl object-cover object-center', {
                   'w-full': isImageLoaded,
