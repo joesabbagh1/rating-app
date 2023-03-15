@@ -111,7 +111,7 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
               alt="My Image"
               width={500}
               height={200}
-              className="h-56 w-full object-cover object-center"
+              className="aspect-square h-56 w-full object-cover object-center"
               // className={clsx('object-cover object-center', {
               //   'h-56 w-full': isImageLoaded,
               //   'hidden ': !isImageLoaded,

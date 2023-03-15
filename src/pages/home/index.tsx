@@ -35,7 +35,7 @@ const Home: NextPage = () => {
   const [display, setDisplay] = useState('all')
 
   return (
-    <div className="p-12 px-24">
+    <div className="w-full p-12 px-24">
       <div>
         <div className="mb-12 flex gap-2">
           <div
@@ -107,7 +107,7 @@ const Home: NextPage = () => {
 
         <h1 className="pb-8 text-3xl">{title}</h1>
 
-        <div className="grid grid-cols-2 gap-5 gap-x-16 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 gap-x-16 gap-y-10 sm:grid-cols-1 lg:grid-cols-4">
           {display === 'all' &&
             initialShops?.map((shop, idx) => (
               <ShopComp key={idx} shop={shop} refetchParent={refetch} />
