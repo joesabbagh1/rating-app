@@ -11,6 +11,7 @@ import {
   faLocationDot,
   faStar,
 } from '@fortawesome/free-solid-svg-icons'
+import younes from '../../../../public/images/younes.jpeg'
 import clsx from 'clsx'
 
 const ShopPage: NextPage<any> = ({ shopId }) => {
@@ -127,7 +128,7 @@ const ShopPage: NextPage<any> = ({ shopId }) => {
               <Image
                 width={450}
                 height={100}
-                src={shop?.imageURL}
+                src={younes}
                 alt=""
                 className={clsx('rounded-2xl object-cover object-center', {
                   'w-full': isImageLoaded,

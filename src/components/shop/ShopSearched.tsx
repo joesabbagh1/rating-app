@@ -3,6 +3,7 @@ import { bool } from 'aws-sdk/clients/signer'
 import clsx from 'clsx'
 import Image from 'next/image'
 import router from 'next/router'
+import younes from '../../../public/images/younes.jpeg'
 import { FC, useState } from 'react'
 
 const ShopSearched: FC<{
@@ -16,7 +17,7 @@ const ShopSearched: FC<{
   }
 
   function redirectShop(shopId: string) {
-    router.push(`/review/add/${shopId}`)
+    router.push(`/shop/${shopId}`)
   }
 
   return (
@@ -29,7 +30,7 @@ const ShopSearched: FC<{
       <div className="flex items-center gap-1">
         {shop.imageURL && (
           <Image
-            src={shop.imageURL}
+            src={younes}
             width={100}
             height={100}
             alt=""

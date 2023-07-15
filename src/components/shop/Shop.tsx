@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { trpc } from '../../utils/trpc'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import younes from '../../../public/images/younes.jpeg'
 import clsx from 'clsx'
 
 type getIcon = (idx: number) => any
@@ -105,20 +106,20 @@ const Shop: FC<{ shop: Shop; refetchParent: () => void }> = ({ shop, refetchPare
       </button>
       <Link href={{ pathname: `/shop/${shop.id}` }}>
         <div className="cursor-pointer transition duration-200 ease-in-out hover:bg-white hover:opacity-80">
-          {shop.imageURL && (
-            <Image
-              src={shop.imageURL}
-              alt="My Image"
-              width={500}
-              height={200}
-              className="aspect-square h-56 w-full object-cover object-center"
-              // className={clsx('object-cover object-center', {
-              //   'h-56 w-full': isImageLoaded,
-              //   'hidden ': !isImageLoaded,
-              // })}
-              // onLoadingComplete={handleImageLoad}
-            />
-          )}
+          {/* {shop.imageURL && ( */}
+          <Image
+            src={younes}
+            alt="My Image"
+            width={500}
+            height={200}
+            className="aspect-square h-56 w-full object-cover object-center"
+            // className={clsx('object-cover object-center', {
+            //   'h-56 w-full': isImageLoaded,
+            //   'hidden ': !isImageLoaded,
+            // })}
+            // onLoadingComplete={handleImageLoad}
+          />
+          {/* )} */}
           {/* {!isImageLoaded && (
             <div className="h-56 w-full animate-pulse rounded-t-2xl bg-gray-300"></div>
           )} */}

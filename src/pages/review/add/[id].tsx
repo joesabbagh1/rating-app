@@ -10,6 +10,7 @@ import clsx from 'clsx'
 import { trpc } from '../../../utils/trpc'
 import { createProxySSGHelpers } from '@trpc/react-query/ssg'
 import Image from 'next/image'
+import younes from '../../../../public/images/younes.jpeg'
 import { appRouter } from '../../../server/trpc/router/_app'
 import { createContext } from '../../../server/trpc/context'
 import Rate from '../../../components/shop/Rate'
@@ -82,7 +83,7 @@ const AddReview = (shop: Shop) => {
               <Image
                 width={450}
                 height={100}
-                src={shop.imageURL}
+                src={younes}
                 alt=""
                 className={clsx('rounded-2xl object-cover object-center', {
                   'w-full': isImageLoaded,
@@ -123,7 +124,7 @@ const AddReview = (shop: Shop) => {
                 <div className="text-xl font-medium">Your review</div>
                 <textarea
                   {...register('description', { required: true })}
-                  className="input-bordered input mt-2 h-28 w-full resize-none"
+                  className="input-bordered input mt-2 h-28 w-full resize-none pt-2"
                 />
                 {errors.description && <p className="text-red-600">{errors.description.message}</p>}
               </div>
@@ -204,7 +205,7 @@ export const getServerSideProps = async (context: any) => {
     return {
       redirect: {
         permanent: false,
-        destination: `api/auth/signin`,
+        destination: `/auth/signin`,
       },
     }
   }
@@ -213,7 +214,7 @@ export const getServerSideProps = async (context: any) => {
     return {
       redirect: {
         permanent: false,
-        destination: `api/auth/signin`,
+        destination: `/auth/signin`,
       },
     }
   } else {
